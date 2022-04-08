@@ -2,14 +2,14 @@ import 'package:mahjong_cal/enum/enum_wind.dart';
 
 class Player {
   final String _playerName;
-  EnumWind? wind;
+  EnumWind wind;
   int _score;
   int _status = 0;
 
   String get playerName => _playerName;
   int get score => _score;
 
-  Player(this._playerName, this._score);
+  Player(this._playerName, this._score, this.wind);
 
   void transfer(Player to, int amount) {
     _score -= amount;
