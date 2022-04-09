@@ -1,14 +1,14 @@
 import 'package:mahjong_cal/data_entity/match_setting.dart';
 import 'package:mahjong_cal/enum/enum_match_player_count.dart';
 import 'package:mahjong_cal/enum/enum_wind.dart';
-import 'package:mahjong_cal/modal/game.dart';
+import 'package:mahjong_cal/modal/round.dart';
 import 'package:mahjong_cal/modal/player.dart';
 
 class Match {
   final MatchSetting _setting;
   late Map<String, Player> _players;
-  late Game currentGame;
-  List<Game> games = [];
+  late Round currentRound;
+  List<Round> rounds = [];
 
   Match(this._setting, {Map<String, String> playerName = const {}}) {
     if (_setting.playerCount == EnumMatchPlayerCount.three) {
@@ -33,7 +33,7 @@ class Match {
       };
     }
 
-    currentGame = Game(EnumWind.east, 1, 1);
+    currentRound = Round(EnumWind.east, 1, 1);
   }
 
   Player? getPlayer(String id) {

@@ -1,6 +1,6 @@
 import 'package:mahjong_cal/enum/enum_wind.dart';
 
-class Game {
+class Round {
   final EnumWind _gameWind;
   final int _gameCount;
   final int _dealerCounter;
@@ -9,5 +9,5 @@ class Game {
   int get gameCount => _gameCount;
   int get dealerCounter => _dealerCounter;
 
-  Game(this._gameWind, this._gameCount, this._dealerCounter);
+  Round(this._gameWind, this._gameCount, this._dealerCounter);
 }
