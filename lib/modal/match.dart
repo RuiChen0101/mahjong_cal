@@ -3,6 +3,7 @@ import 'package:mahjong_cal/enum/enum_match_player_count.dart';
 import 'package:mahjong_cal/enum/enum_wind.dart';
 import 'package:mahjong_cal/modal/round.dart';
 import 'package:mahjong_cal/modal/player.dart';
+import 'package:mahjong_cal/modal/winning_tile.dart';
 
 class Match {
   final MatchSetting _setting;
@@ -38,5 +39,17 @@ class Match {
 
   Player? getPlayer(String id) {
     return _players[id];
+  }
+
+  void draw(List<String> readyHandPlayers) {}
+
+  void setWinner(WinningTile tile) {}
+
+  void settle() {}
+
+  void _nextRound() {}
+
+  bool _isFinish() {
+    return false;
   }
 }
