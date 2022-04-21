@@ -5,11 +5,16 @@ class Round {
   final EnumWind _gameWind;
   final int _gameCount;
   final int _dealerCounter;
-  List<RoundResult> result = [];
+  final List<RoundResult> _results = [];
 
   EnumWind get gameWind => _gameWind;
   int get gameCount => _gameCount;
   int get dealerCounter => _dealerCounter;
+  List<RoundResult> get results => _results;
 
   Round(this._gameWind, this._gameCount, this._dealerCounter);
+
+  void addResult(RoundResult result) {
+    results.add(result);
+  }
 }

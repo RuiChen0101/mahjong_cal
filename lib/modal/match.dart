@@ -1,9 +1,12 @@
-import 'package:mahjong_cal/data_entity/match_setting.dart';
-import 'package:mahjong_cal/enum/enum_match_player_count.dart';
-import 'package:mahjong_cal/enum/enum_wind.dart';
+import 'package:mahjong_cal/modal/draw_result.dart';
 import 'package:mahjong_cal/modal/round.dart';
 import 'package:mahjong_cal/modal/player.dart';
-import 'package:mahjong_cal/modal/winning_tile.dart';
+import 'package:mahjong_cal/enum/enum_wind.dart';
+import 'package:mahjong_cal/modal/round_result.dart';
+import 'package:mahjong_cal/modal/winning_tile_result.dart';
+import 'package:mahjong_cal/data_entity/match_setting.dart';
+import 'package:mahjong_cal/data_entity/transfer_request.dart';
+import 'package:mahjong_cal/enum/enum_match_player_count.dart';
 
 class Match {
   final MatchSetting _setting;
@@ -41,15 +44,33 @@ class Match {
     return _players[id];
   }
 
-  void draw(List<String> readyHandPlayers) {}
+  void draw(List<String> readyHandPlayers) {
+    DrawResult result = DrawResult(readyHandPlayers);
+    currentRound.addResult(result);
+    settle();
+  }
 
-  void setWinner(WinningTile tile) {}
+  void setWinner(WinningTileResult tile) {
+    currentRound.addResult(tile);
+  }
 
-  void settle() {}
+  void settle() {
+    List<RoundResult> results = currentRound.results;
+    List<TransferRequest> requests = [];
+    for (RoundResult result in results) {
+      requests.addAll(result.getTransferRequest(_setting));
+    }
+    for (TransferRequest result in requests) {
+      _players[result.from]!.transfer(_players[result.to]!, result.amount);
+    }
+    if (!isFinished()) {
+      _nextRound();
+    }
+  }
 
-  void _nextRound() {}
-
-  bool _isFinish() {
+  bool isFinished() {
     return false;
   }
+
+  void _nextRound() {}
 }

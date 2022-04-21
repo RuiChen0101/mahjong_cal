@@ -1,7 +1,9 @@
 import 'package:mahjong_cal/enum/enum_win_type.dart';
 import 'package:mahjong_cal/modal/round_result.dart';
+import 'package:mahjong_cal/data_entity/match_setting.dart';
+import 'package:mahjong_cal/data_entity/transfer_request.dart';
 
-class WinningTile extends RoundResult {
+class WinningTileResult extends RoundResult {
   final EnumWinType _winType;
   final String _winner;
   String? _chucker;
@@ -18,9 +20,14 @@ class WinningTile extends RoundResult {
   int get fu => _fu;
   int get point => _point;
 
-  WinningTile(
+  WinningTileResult(
       this._winner, this._winType, this._tile, this._han, this._fu, this._point,
       {String? chucker}) {
     _chucker = chucker;
+  }
+
+  @override
+  List<TransferRequest> getTransferRequest(MatchSetting matchSetting) {
+    return [];
   }
 }
