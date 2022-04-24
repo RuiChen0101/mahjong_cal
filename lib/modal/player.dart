@@ -6,8 +6,9 @@ class Player {
   int _score;
   int _status = 0;
 
-  String get playerName => _playerName;
   int get score => _score;
+  String get playerName => _playerName;
+  bool get isDealer => wind == EnumWind.east;
 
   Player(this._playerName, this._score, this.wind);
 

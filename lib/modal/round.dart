@@ -1,5 +1,5 @@
 import 'package:mahjong_cal/enum/enum_wind.dart';
-import 'package:mahjong_cal/modal/round_result.dart';
+import 'package:mahjong_cal/data_entity/round_result/round_result.dart';
 
 class Round {
   final EnumWind _gameWind;
