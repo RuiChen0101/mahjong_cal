@@ -32,13 +32,13 @@ void main() {
       });
 
       test('test han == 4 and fu >31', () {
-        int basePoint = calculator.basePointCalculate(31, 4);
+        int basePoint = calculator.basePointCalculate(32, 4);
         expect(basePoint, 2000);
       });
 
       test('test other condition', () {
-        int basePoint = calculator.basePointCalculate(31, 4);
-        expect(basePoint, 2000);
+        int basePoint = calculator.basePointCalculate(20, 2);
+        expect(basePoint, 320);
       });
     });
 

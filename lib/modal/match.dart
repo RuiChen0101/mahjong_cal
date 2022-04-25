@@ -1,3 +1,5 @@
+import 'package:mahjong_cal/data_entity/round_result/draw_in_progress_result.dart';
+import 'package:mahjong_cal/enum/enum_round_result_type.dart';
 import 'package:mahjong_cal/modal/round.dart';
 import 'package:mahjong_cal/modal/player.dart';
 import 'package:mahjong_cal/enum/enum_wind.dart';
@@ -14,8 +16,11 @@ import 'package:mahjong_cal/modal/point_transfer_calculator/three_player_point_t
 class Match {
   final MatchSetting _setting;
   late Map<String, Player> _players;
-  late Round currentRound;
-  List<Round> rounds = [];
+  Round? _currentRound;
+  List<Round> _rounds = [];
+
+  Round? get currentRound => _currentRound;
+  List<Round> get rounds => _rounds;
 
   Match(this._setting, {Map<String, String> playerName = const {}}) {
     if (_setting.playerCount == EnumMatchPlayerCount.three) {
@@ -40,7 +45,7 @@ class Match {
       };
     }
 
-    currentRound = Round(EnumWind.east, 1, 1);
+    _currentRound = Round(EnumWind.east, 1, 1);
   }
 
   Player? getPlayer(String id) {
@@ -57,16 +62,22 @@ class Match {
 
   void draw(List<String> readyHandPlayers) {
     DrawResult result = DrawResult(readyHandPlayers);
-    currentRound.addResult(result);
+    _currentRound!.addResult(result);
+    settle();
+  }
+
+  void drawInProgress(String drawType) {
+    DrawInProgressResult result = DrawInProgressResult(drawType);
+    _currentRound!.addResult(result);
     settle();
   }
 
   void setWinner(WinningResult tile) {
-    currentRound.addResult(tile);
+    _currentRound!.addResult(tile);
   }
 
   void settle() {
-    List<RoundResult> results = currentRound.results;
+    List<RoundResult> results = _currentRound!.results;
     List<TransferRequest> requests = [];
     PointTransferCalculator calculator =
         _setting.playerCount == EnumMatchPlayerCount.four
@@ -79,14 +90,14 @@ class Match {
     for (TransferRequest result in requests) {
       _players[result.from]!.transfer(_players[result.to]!, result.amount);
     }
-    if (!isFinished()) {
-      _nextRound();
-    }
+    _nextRound();
   }
 
   bool isFinished() {
-    return false;
+    return _currentRound == null;
   }
 
-  void _nextRound() {}
+  void _nextRound() {
+    _rounds.add(_currentRound!);
+  }
 }

@@ -3,25 +3,80 @@ import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/winning_result.dart';
 import 'package:mahjong_cal/data_entity/transfer_request.dart';
 import 'package:mahjong_cal/data_entity/round_result/round_result.dart';
+import 'package:mahjong_cal/enum/enum_win_type.dart';
 import 'package:mahjong_cal/modal/point_transfer_calculator/point_transfer_calculator.dart';
 
 class ThreePlayerPointTransferCalculator extends PointTransferCalculator {
   @override
-  List<TransferRequest> calculate(RoundResult result, String dealerId) {
-    if (result is DrawResult) {
-      return _calculateDrawResult(result);
-    } else if (result is WinningResult) {
-      return _calculateWinningResult(result, dealerId);
+  List<TransferRequest> calculate(RoundResult roundResult, String dealerId) {
+    if (roundResult is DrawResult) {
+      return _calculateDrawResult(roundResult);
+    } else if (roundResult is WinningResult) {
+      return _calculateWinningResult(roundResult, dealerId);
     }
     return [];
   }
 
-  List<TransferRequest> _calculateDrawResult(DrawResult result) {
-    return [];
+  List<TransferRequest> _calculateDrawResult(DrawResult roundResult) {
+    List<String> noReadyHandPlayer = ['player1', 'player2', 'player3']
+        .where((e) => !roundResult.readyHandPlayers.contains(e))
+        .toList();
+
+    List<TransferRequest> result = [];
+    if (roundResult.readyHandPlayers.length == 1) {
+      result = [
+        TransferRequest(
+            noReadyHandPlayer[0], roundResult.readyHandPlayers[0], 1500),
+        TransferRequest(
+            noReadyHandPlayer[1], roundResult.readyHandPlayers[0], 1500),
+      ];
+    } else if (roundResult.readyHandPlayers.length == 2) {
+      result = [
+        TransferRequest(
+            noReadyHandPlayer[0], roundResult.readyHandPlayers[0], 1500),
+        TransferRequest(
+            noReadyHandPlayer[0], roundResult.readyHandPlayers[1], 1500),
+      ];
+    }
+    return result;
   }
 
   List<TransferRequest> _calculateWinningResult(
-      WinningResult result, String dealerId) {
-    return [];
+      WinningResult roundResult, String dealerId) {
+    List<TransferRequest> result = [];
+    int basePoint = basePointCalculate(roundResult.fu, roundResult.han);
+    if (roundResult.winType == EnumWinType.selfDraw) {
+      List<String> payer = ['player1', 'player2', 'player3']
+          .where((e) => e != roundResult.winner)
+          .toList();
+      if (dealerId == roundResult.winner) {
+        result = [
+          TransferRequest(
+              payer[0], roundResult.winner, hundredRoundUp(basePoint * 2)),
+          TransferRequest(
+              payer[1], roundResult.winner, hundredRoundUp(basePoint * 2)),
+        ];
+      } else {
+        result = [
+          TransferRequest(payer[0], roundResult.winner,
+              hundredRoundUp(basePoint * (payer[0] == dealerId ? 2 : 1))),
+          TransferRequest(payer[1], roundResult.winner,
+              hundredRoundUp(basePoint * (payer[1] == dealerId ? 2 : 1))),
+        ];
+      }
+    } else {
+      if (dealerId == roundResult.winner) {
+        result = [
+          TransferRequest(roundResult.chucker!, roundResult.winner,
+              hundredRoundUp(basePoint * 6)),
+        ];
+      } else {
+        result = [
+          TransferRequest(roundResult.chucker!, roundResult.winner,
+              hundredRoundUp(basePoint * 4)),
+        ];
+      }
+    }
+    return result;
   }
 }

@@ -1,8 +1,8 @@
+import 'package:mahjong_cal/enum/enum_win_type.dart';
 import 'package:mahjong_cal/data_entity/transfer_request.dart';
 import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/round_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/winning_result.dart';
-import 'package:mahjong_cal/enum/enum_win_type.dart';
 import 'package:mahjong_cal/modal/point_transfer_calculator/point_transfer_calculator.dart';
 
 class FourPlayerPointTransferCalculator extends PointTransferCalculator {

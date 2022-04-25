@@ -1,15 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mahjong_cal/data_entity/round_result/winning_result.dart';
+
+import 'package:mahjong_cal/enum/enum_win_type.dart';
 import 'package:mahjong_cal/data_entity/transfer_request.dart';
 import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
+import 'package:mahjong_cal/data_entity/round_result/winning_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/draw_in_progress_result.dart';
-import 'package:mahjong_cal/enum/enum_win_type.dart';
-import 'package:mahjong_cal/modal/point_transfer_calculator/four_player_point_transfer_calculator.dart';
+import 'package:mahjong_cal/modal/point_transfer_calculator/three_player_point_transfer_calculator.dart';
 
 void main() {
-  group('FourPlayerPointTransferCalculator', () {
-    FourPlayerPointTransferCalculator calculator =
-        FourPlayerPointTransferCalculator();
+  group('ThreePlayerPointTransferCalculator', () {
+    ThreePlayerPointTransferCalculator calculator =
+        ThreePlayerPointTransferCalculator();
     group('draw result', () {
       test('test calculate no one player readyHand', () {
         DrawResult result = DrawResult([]);
@@ -20,10 +21,9 @@ void main() {
       test('test calculate one player readyHand', () {
         DrawResult result = DrawResult(["player2"]);
         List<TransferRequest> request = calculator.calculate(result, "player1");
-        expect(request.length, 3);
-        expect(request[0], const TransferRequest("player1", "player2", 1000));
-        expect(request[1], const TransferRequest("player3", "player2", 1000));
-        expect(request[2], const TransferRequest("player4", "player2", 1000));
+        expect(request.length, 2);
+        expect(request[0], const TransferRequest("player1", "player2", 1500));
+        expect(request[1], const TransferRequest("player3", "player2", 1500));
       });
 
       test('test calculate two player readyHand', () {
@@ -31,21 +31,11 @@ void main() {
         List<TransferRequest> request = calculator.calculate(result, "player1");
         expect(request.length, 2);
         expect(request[0], const TransferRequest("player1", "player2", 1500));
-        expect(request[1], const TransferRequest("player3", "player4", 1500));
+        expect(request[1], const TransferRequest("player1", "player4", 1500));
       });
 
       test('test calculate three player readyHand', () {
-        DrawResult result = DrawResult(["player2", "player4", "player3"]);
-        List<TransferRequest> request = calculator.calculate(result, "player1");
-        expect(request.length, 3);
-        expect(request[0], const TransferRequest("player1", "player2", 1000));
-        expect(request[1], const TransferRequest("player1", "player4", 1000));
-        expect(request[2], const TransferRequest("player1", "player3", 1000));
-      });
-
-      test('test calculate four player readyHand', () {
-        DrawResult result =
-            DrawResult(["player1", "player2", "player4", "player3"]);
+        DrawResult result = DrawResult(["player1", "player2", "player3"]);
         List<TransferRequest> request = calculator.calculate(result, "player1");
         expect(request.length, 0);
       });
@@ -64,10 +54,9 @@ void main() {
         WinningResult result =
             WinningResult("player1", EnumWinType.selfDraw, ['國士無雙'], 13, 20);
         List<TransferRequest> request = calculator.calculate(result, "player1");
-        expect(request.length, 3);
+        expect(request.length, 2);
         expect(request[0], const TransferRequest("player2", "player1", 16000));
         expect(request[1], const TransferRequest("player3", "player1", 16000));
-        expect(request[2], const TransferRequest("player4", "player1", 16000));
       });
 
       test('test dealer ron', () {
@@ -83,10 +72,9 @@ void main() {
         WinningResult result =
             WinningResult("player2", EnumWinType.selfDraw, ['國士無雙'], 13, 20);
         List<TransferRequest> request = calculator.calculate(result, "player1");
-        expect(request.length, 3);
+        expect(request.length, 2);
         expect(request[0], const TransferRequest("player1", "player2", 16000));
         expect(request[1], const TransferRequest("player3", "player2", 8000));
-        expect(request[2], const TransferRequest("player4", "player2", 8000));
       });
 
       test('test player ron', () {
