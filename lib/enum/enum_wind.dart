@@ -1,1 +1,1 @@
-enum EnumWind { north, east, south, west }
+enum EnumWind { east, south, west, north }

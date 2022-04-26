@@ -3,18 +3,18 @@ import 'package:mahjong_cal/enum/enum_wind.dart';
 class Player {
   final String _playerName;
   EnumWind wind;
-  int _score;
+  int _points;
   int _status = 0;
 
-  int get score => _score;
+  int get points => _points;
   String get playerName => _playerName;
   bool get isDealer => wind == EnumWind.east;
 
-  Player(this._playerName, this._score, this.wind);
+  Player(this._playerName, this._points, this.wind);
 
   void transfer(Player to, int amount) {
-    _score -= amount;
-    to._score += amount;
+    _points -= amount;
+    to._points += amount;
   }
 
   void setStatus(int s) {
