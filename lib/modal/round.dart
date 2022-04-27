@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:mahjong_cal/data_entity/round_result/draw_in_progress_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/winning_result.dart';
@@ -5,7 +6,7 @@ import 'package:mahjong_cal/enum/enum_round_result_type.dart';
 import 'package:mahjong_cal/enum/enum_wind.dart';
 import 'package:mahjong_cal/data_entity/round_result/round_result.dart';
 
-class Round {
+class Round extends Equatable {
   final EnumWind _gameWind;
   final int _gameCount;
   final int _dealerCounter;
@@ -30,4 +31,7 @@ class Round {
     }
     results.add(result);
   }
+
+  @override
+  List<Object> get props => [_gameWind, _gameCount, _dealerCounter];
 }
