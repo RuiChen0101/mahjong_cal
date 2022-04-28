@@ -5,6 +5,7 @@ class Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width * 0.3;
     return Scaffold(
       appBar: AppBar(
         title: const Text('選單'),
@@ -28,16 +29,18 @@ class Menu extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.3,
-              height: MediaQuery.of(context).size.width * 0.3,
+              width: width,
+              height: width,
               child: OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/create_match');
+                },
                 child: const Text('建立'),
               ),
             ),
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.3,
-              height: MediaQuery.of(context).size.width * 0.3,
+              width: width,
+              height: width,
               child: OutlinedButton(
                 onPressed: () {},
                 child: const Text('連線'),
