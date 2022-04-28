@@ -1,11 +1,11 @@
 import 'package:mahjong_cal/modal/round.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mahjong_cal/enum/enum_wind.dart';
-import 'package:mahjong_cal/enum/enum_win_type.dart';
+import 'package:mahjong_cal/constant/enum_wind.dart';
+import 'package:mahjong_cal/constant/enum_win_type.dart';
 import 'package:mahjong_cal/modal/round_generator.dart';
-import 'package:mahjong_cal/enum/enum_match_length.dart';
+import 'package:mahjong_cal/constant/enum_match_length.dart';
 import 'package:mahjong_cal/data_entity/match_setting.dart';
-import 'package:mahjong_cal/enum/enum_match_player_count.dart';
+import 'package:mahjong_cal/constant/enum_match_player_count.dart';
 import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/winning_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/draw_in_progress_result.dart';

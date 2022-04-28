@@ -1,10 +1,12 @@
+import 'package:mahjong_cal/constant/player_status.dart';
+import 'package:mahjong_cal/constant/wind_transfer_map.dart';
 import 'package:mahjong_cal/modal/round.dart';
 import 'package:mahjong_cal/modal/player.dart';
-import 'package:mahjong_cal/enum/enum_wind.dart';
+import 'package:mahjong_cal/constant/enum_wind.dart';
 import 'package:mahjong_cal/modal/round_generator.dart';
 import 'package:mahjong_cal/data_entity/match_setting.dart';
 import 'package:mahjong_cal/modal/match_finish_checker.dart';
-import 'package:mahjong_cal/enum/enum_match_player_count.dart';
+import 'package:mahjong_cal/constant/enum_match_player_count.dart';
 import 'package:mahjong_cal/data_entity/transfer_request.dart';
 import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/round_result.dart';
@@ -20,8 +22,10 @@ class Match {
   Round _currentRound;
   final List<Round> _rounds = [];
 
-  Round? get currentRound => _currentRound;
+  Round get currentRound => _currentRound;
   List<Round> get rounds => _rounds;
+  MatchSetting get setting => _setting;
+  Map<String, Player> get players => _players;
 
   Match(this._setting, {Map<String, String> playerName = const {}})
       : _currentRound = Round(EnumWind.east, 1, 1) {
@@ -48,16 +52,20 @@ class Match {
     }
   }
 
-  Player? getPlayer(String id) {
-    return _players[id];
-  }
-
   String getDealerId() {
     String result = "";
     _players.forEach((id, player) {
       if (player.isDealer) result = id;
     });
     return result;
+  }
+
+  void clamRichi(String playerId) {
+    Player player = _players[playerId]!;
+    if (player.points >= 1000) {
+      player.setStatus(PlayerStatus.RICHI);
+      player.transfer(null, 1000);
+    }
   }
 
   void draw(List<String> readyHandPlayers) {
@@ -103,5 +111,11 @@ class Match {
     _rounds.add(_currentRound);
     RoundGenerator generator = RoundGenerator();
     _currentRound = generator.generate(_currentRound, _setting, getDealerId());
+    for (Player player in _players.values) {
+      player.clearStatus();
+      player.wind = _setting.playerCount == EnumMatchPlayerCount.four
+          ? fourPlayerWindTransfer[player.wind]!
+          : threePlayerWindTransfer[player.wind]!;
+    }
   }
 }

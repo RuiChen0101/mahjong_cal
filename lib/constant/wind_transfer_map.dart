@@ -1,4 +1,4 @@
-import 'package:mahjong_cal/enum/enum_wind.dart';
+import 'package:mahjong_cal/constant/enum_wind.dart';
 
 const Map<EnumWind, EnumWind> threePlayerWindTransfer = {
   EnumWind.east: EnumWind.south,

@@ -1,4 +1,4 @@
-import 'package:mahjong_cal/enum/enum_win_type.dart';
+import 'package:mahjong_cal/constant/enum_win_type.dart';
 import 'package:mahjong_cal/data_entity/transfer_request.dart';
 import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/round_result.dart';

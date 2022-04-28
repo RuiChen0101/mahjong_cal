@@ -1,10 +1,10 @@
 import 'package:mahjong_cal/data_entity/round_result/round_result.dart';
 import 'package:mahjong_cal/modal/round.dart';
-import 'package:mahjong_cal/enum/enum_wind.dart';
-import 'package:mahjong_cal/enum/map_wind_transfer.dart';
+import 'package:mahjong_cal/constant/enum_wind.dart';
+import 'package:mahjong_cal/constant/wind_transfer_map.dart';
 import 'package:mahjong_cal/data_entity/match_setting.dart';
-import 'package:mahjong_cal/enum/enum_round_result_type.dart';
-import 'package:mahjong_cal/enum/enum_match_player_count.dart';
+import 'package:mahjong_cal/constant/enum_round_result_type.dart';
+import 'package:mahjong_cal/constant/enum_match_player_count.dart';
 import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/winning_result.dart';
 

@@ -1,4 +1,4 @@
-import 'package:mahjong_cal/enum/enum_wind.dart';
+import 'package:mahjong_cal/constant/enum_wind.dart';
 
 class Player {
   final String _playerName;
@@ -12,9 +12,9 @@ class Player {
 
   Player(this._playerName, this._points, this.wind);
 
-  void transfer(Player to, int amount) {
+  void transfer(Player? to, int amount) {
     _points -= amount;
-    to._points += amount;
+    to?._points += amount;
   }
 
   void setStatus(int s) {

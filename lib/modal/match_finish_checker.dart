@@ -1,9 +1,9 @@
 import 'package:mahjong_cal/modal/round.dart';
 import 'package:mahjong_cal/modal/player.dart';
-import 'package:mahjong_cal/enum/enum_wind.dart';
-import 'package:mahjong_cal/enum/enum_match_length.dart';
+import 'package:mahjong_cal/constant/enum_wind.dart';
+import 'package:mahjong_cal/constant/enum_match_length.dart';
 import 'package:mahjong_cal/data_entity/match_setting.dart';
-import 'package:mahjong_cal/enum/enum_match_player_count.dart';
+import 'package:mahjong_cal/constant/enum_match_player_count.dart';
 
 class MatchFinishChecker {
   bool isFinished(

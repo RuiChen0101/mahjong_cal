@@ -2,9 +2,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:mahjong_cal/data_entity/match_setting.dart';
 
-import 'package:mahjong_cal/enum/enum_match_length.dart';
+import 'package:mahjong_cal/constant/enum_match_length.dart';
 import 'package:mahjong_cal/component/input/number_input.dart';
-import 'package:mahjong_cal/enum/enum_match_player_count.dart';
+import 'package:mahjong_cal/constant/enum_match_player_count.dart';
 import 'package:mahjong_cal/component/button/tab_bar_option_button.dart';
 
 class MatchCreate extends StatefulWidget {

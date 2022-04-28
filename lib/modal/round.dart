@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:mahjong_cal/data_entity/round_result/draw_in_progress_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/winning_result.dart';
-import 'package:mahjong_cal/enum/enum_round_result_type.dart';
-import 'package:mahjong_cal/enum/enum_wind.dart';
+import 'package:mahjong_cal/constant/enum_round_result_type.dart';
+import 'package:mahjong_cal/constant/enum_wind.dart';
 import 'package:mahjong_cal/data_entity/round_result/round_result.dart';
 
 class Round extends Equatable {
