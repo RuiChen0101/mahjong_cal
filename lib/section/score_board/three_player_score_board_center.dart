@@ -6,10 +6,17 @@ import 'package:mahjong_cal/constant/player_status.dart';
 import 'package:mahjong_cal/constant/wind_translate_map.dart';
 import 'package:mahjong_cal/component/button/richi_button.dart';
 import 'package:mahjong_cal/component/text/player_wind_text.dart';
+import 'package:mahjong_cal/constant/enum_match_player_count.dart';
+import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
 import 'package:mahjong_cal/component/button/round_result_button.dart';
+import 'package:mahjong_cal/data_entity/round_result/round_result.dart';
+import 'package:mahjong_cal/data_entity/round_result/winning_result.dart';
+import 'package:mahjong_cal/data_entity/round_result/draw_in_progress_result.dart';
 
 class ThreePlayerScoreBoardCenter extends StatelessWidget {
   final ValueChanged<String> onRichiClick;
+  final ValueChanged<RoundResult> onHasResult;
+  final VoidCallback onSettle;
   final Round round;
   final Map<String, Player> players;
 
@@ -17,7 +24,9 @@ class ThreePlayerScoreBoardCenter extends StatelessWidget {
       {Key? key,
       required this.onRichiClick,
       required this.round,
-      required this.players})
+      required this.players,
+      required this.onHasResult,
+      required this.onSettle})
       : super(key: key);
 
   @override
@@ -87,9 +96,33 @@ class ThreePlayerScoreBoardCenter extends StatelessWidget {
                         ),
                       ),
                       RoundResultButton(
-                        onWinning: () {},
-                        onDraw: () {},
-                        onDrawInProgress: () {},
+                        settleMode: round.resultType != null,
+                        onSettle: () => onSettle(),
+                        onWinning: () async {
+                          WinningResult? result =
+                              await Navigator.pushNamed<WinningResult>(
+                                  context, '/winning_result_create',
+                                  arguments: EnumMatchPlayerCount.three);
+                          if (result != null) {
+                            onHasResult(result);
+                          }
+                        },
+                        onDraw: () async {
+                          List<String>? readyHandPlayers =
+                              await Navigator.pushNamed<List<String>>(
+                                  context, '/draw_result_create',
+                                  arguments: EnumMatchPlayerCount.three);
+                          if (readyHandPlayers != null) {
+                            onHasResult(DrawResult(readyHandPlayers));
+                          }
+                        },
+                        onDrawInProgress: () async {
+                          String? drawType = await Navigator.pushNamed<String>(
+                              context, '/draw_in_progress_result_create');
+                          if (drawType != null) {
+                            onHasResult(DrawInProgressResult(drawType));
+                          }
+                        },
                       ),
                     ],
                   ),

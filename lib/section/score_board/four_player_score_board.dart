@@ -94,6 +94,10 @@ class _FourPlayerScoreBoard extends State<FourPlayerScoreBoard> {
                       }
                       setState(() {});
                     },
+                    onSettle: () {
+                      widget.match.settle();
+                      setState(() {});
+                    },
                     players: widget.match.players,
                     round: widget.match.currentRound,
                   ),

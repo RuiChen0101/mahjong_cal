@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:mahjong_cal/modal/match.dart';
+import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
+import 'package:mahjong_cal/data_entity/round_result/round_result.dart';
+import 'package:mahjong_cal/data_entity/round_result/draw_in_progress_result.dart';
 import 'package:mahjong_cal/section/score_board/three_player_score_board_center.dart';
 
 class ThreePlayerScoreBoard extends StatefulWidget {
@@ -62,6 +65,18 @@ class _ThreePlayerScoreBoard extends State<ThreePlayerScoreBoard> {
                       setState(() {
                         widget.match.clamRichi(playerId);
                       });
+                    },
+                    onHasResult: (RoundResult result) {
+                      widget.match.setRoundResult(result);
+                      if (result is DrawResult ||
+                          result is DrawInProgressResult) {
+                        widget.match.settle();
+                      }
+                      setState(() {});
+                    },
+                    onSettle: () {
+                      widget.match.settle();
+                      setState(() {});
                     },
                     players: widget.match.players,
                     round: widget.match.currentRound,

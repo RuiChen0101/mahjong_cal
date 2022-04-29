@@ -23,6 +23,13 @@ class _DrawResultCreate extends State<DrawResultCreate> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('荒牌流局'),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(
+            Icons.arrow_back_ios_sharp,
+            color: Colors.white,
+          ),
+        ),
         actions: [
           TextButton(
             child: const Text(
@@ -40,6 +47,7 @@ class _DrawResultCreate extends State<DrawResultCreate> {
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
               '聽牌玩家',

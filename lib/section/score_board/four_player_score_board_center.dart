@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mahjong_cal/constant/enum_match_player_count.dart';
+import 'package:mahjong_cal/data_entity/round_result/draw_in_progress_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
+import 'package:mahjong_cal/data_entity/round_result/winning_result.dart';
 
 import 'package:mahjong_cal/modal/round.dart';
 import 'package:mahjong_cal/modal/player.dart';
@@ -14,6 +16,7 @@ import 'package:mahjong_cal/data_entity/round_result/round_result.dart';
 class FourPlayerScoreBoardCenter extends StatelessWidget {
   final ValueChanged<String> onRichiClick;
   final ValueChanged<RoundResult> onHasResult;
+  final VoidCallback onSettle;
   final Round round;
   final Map<String, Player> players;
 
@@ -22,7 +25,8 @@ class FourPlayerScoreBoardCenter extends StatelessWidget {
       required this.onRichiClick,
       required this.round,
       required this.players,
-      required this.onHasResult})
+      required this.onHasResult,
+      required this.onSettle})
       : super(key: key);
 
   @override
@@ -98,7 +102,17 @@ class FourPlayerScoreBoardCenter extends StatelessWidget {
                         ),
                       ),
                       RoundResultButton(
-                        onWinning: () {},
+                        settleMode: round.resultType != null,
+                        onSettle: () => onSettle(),
+                        onWinning: () async {
+                          WinningResult? result =
+                              await Navigator.pushNamed<WinningResult>(
+                                  context, '/winning_result_create',
+                                  arguments: EnumMatchPlayerCount.four);
+                          if (result != null) {
+                            onHasResult(result);
+                          }
+                        },
                         onDraw: () async {
                           List<String>? readyHandPlayers =
                               await Navigator.pushNamed<List<String>>(
@@ -108,7 +122,13 @@ class FourPlayerScoreBoardCenter extends StatelessWidget {
                             onHasResult(DrawResult(readyHandPlayers));
                           }
                         },
-                        onDrawInProgress: () {},
+                        onDrawInProgress: () async {
+                          String? drawType = await Navigator.pushNamed<String>(
+                              context, '/draw_in_progress_result_create');
+                          if (drawType != null) {
+                            onHasResult(DrawInProgressResult(drawType));
+                          }
+                        },
                       ),
                     ],
                   ),

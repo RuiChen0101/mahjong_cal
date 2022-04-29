@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class TabBarOptionButton<T> extends StatelessWidget {
-  final T selectedIndex;
+  final T? selectedIndex;
   final List<T> index;
   final List<String> text;
   final ValueChanged<T> onSelect;
 
   const TabBarOptionButton(
       {Key? key,
-      required this.selectedIndex,
+      this.selectedIndex,
       required this.index,
       required this.text,
       required this.onSelect})
