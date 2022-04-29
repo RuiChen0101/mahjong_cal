@@ -6,6 +6,7 @@ import 'package:mahjong_cal/constant/player_status.dart';
 import 'package:mahjong_cal/constant/wind_translate_map.dart';
 import 'package:mahjong_cal/component/button/richi_button.dart';
 import 'package:mahjong_cal/component/text/player_wind_text.dart';
+import 'package:mahjong_cal/component/button/round_result_button.dart';
 
 class ThreePlayerScoreBoardCenter extends StatelessWidget {
   final ValueChanged<String> onRichiClick;
@@ -21,11 +22,11 @@ class ThreePlayerScoreBoardCenter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width * 0.65;
-    double buttonHigh = 20;
+    double height = MediaQuery.of(context).size.height * 0.65;
+    double buttonHigh = 28;
     return Container(
-      width: width,
-      height: width,
+      width: height + 75,
+      height: height,
       decoration: BoxDecoration(
         border: Border.all(
           width: 2,
@@ -34,51 +35,61 @@ class ThreePlayerScoreBoardCenter extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const SizedBox(height: 2),
-          Container(
-            alignment: Alignment.centerRight,
-            child: RotatedBox(
-              quarterTurns: -1,
-              child: PlayerWindText(wind: players['player3']!.wind),
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const SizedBox(width: 6),
+              RotatedBox(
+                quarterTurns: 2,
+                child: PlayerWindText(wind: players['player3']!.wind),
+              ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: SizedBox(
+                  height: buttonHigh,
+                  child: RichiButton(
+                    onClick: () => onRichiClick('player3'),
+                    isRichi:
+                        players['player3']!.checkStatus(PlayerStatus.RICHI),
+                  ),
+                ),
+              ),
+              RotatedBox(
+                quarterTurns: -1,
+                child: PlayerWindText(wind: players['player2']!.wind),
+              ),
+            ],
           ),
-          const SizedBox(height: 6),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 6),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    height: double.infinity,
                     width: buttonHigh,
-                    child: RichiButton(
-                      onClick: () => onRichiClick('player1'),
-                      isRichi:
-                          players['player1']!.checkStatus(PlayerStatus.RICHI),
-                    ),
                   ),
-                  Row(
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      RotatedBox(
-                        quarterTurns: 1,
-                        child: Text(
-                          '${round.dealerCounter}本場',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
+                      Text(
+                        '${windTranslate[round.gameWind]}${round.gameCount}局',
+                        style: const TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                      RotatedBox(
-                        quarterTurns: 1,
-                        child: Text(
-                          '${windTranslate[round.gameWind]}${round.gameCount}局',
-                          style: const TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.w500,
-                          ),
+                      Text(
+                        '${round.dealerCounter}本場',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
                         ),
+                      ),
+                      RoundResultButton(
+                        onWinning: () {},
+                        onDraw: () {},
+                        onDrawInProgress: () {},
                       ),
                     ],
                   ),
@@ -86,9 +97,9 @@ class ThreePlayerScoreBoardCenter extends StatelessWidget {
                     height: double.infinity,
                     width: buttonHigh,
                     child: RichiButton(
-                      onClick: () => onRichiClick('player3'),
+                      onClick: () => onRichiClick('player2'),
                       isRichi:
-                          players['player3']!.checkStatus(PlayerStatus.RICHI),
+                          players['player2']!.checkStatus(PlayerStatus.RICHI),
                     ),
                   ),
                 ],
@@ -98,23 +109,22 @@ class ThreePlayerScoreBoardCenter extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              RotatedBox(
-                quarterTurns: 1,
-                child: PlayerWindText(wind: players['player1']!.wind),
+              SizedBox(
+                width: buttonHigh,
               ),
               Expanded(
                 child: SizedBox(
                   height: buttonHigh,
                   child: RichiButton(
-                    onClick: () => onRichiClick('player2'),
+                    onClick: () => onRichiClick('player1'),
                     isRichi:
-                        players['player2']!.checkStatus(PlayerStatus.RICHI),
+                        players['player1']!.checkStatus(PlayerStatus.RICHI),
                   ),
                 ),
               ),
               const SizedBox(width: 6),
-              PlayerWindText(wind: players['player2']!.wind),
-              const SizedBox(width: 2),
+              PlayerWindText(wind: players['player1']!.wind),
+              const SizedBox(width: 6),
             ],
           )
         ],

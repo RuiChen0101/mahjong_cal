@@ -13,7 +13,7 @@ class PlayerWindText extends StatelessWidget {
     return Text(
       windTranslate[wind]!,
       style: TextStyle(
-        fontSize: 20,
+        fontSize: 28,
         color: wind == EnumWind.east ? Colors.red : Colors.white,
         fontWeight: FontWeight.w500,
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mahjong_cal/constant/enum_match_player_count.dart';
 
 import 'package:mahjong_cal/modal/match.dart';
@@ -6,7 +7,7 @@ import 'package:mahjong_cal/data_entity/match_setting.dart';
 import 'package:mahjong_cal/section/score_board/four_player_score_board.dart';
 import 'package:mahjong_cal/section/score_board/three_player_score_board.dart';
 
-class ScoreBoard extends StatelessWidget {
+class ScoreBoard extends StatefulWidget {
   final Match match;
 
   ScoreBoard({Key? key, required MatchSetting setting})
@@ -14,11 +15,34 @@ class ScoreBoard extends StatelessWidget {
         super(key: key);
 
   @override
+  State<StatefulWidget> createState() => _ScoreBoard();
+}
+
+class _ScoreBoard extends State<ScoreBoard> {
+  @override
+  void initState() {
+    super.initState();
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+    ]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: SystemUiOverlay.values);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: match.setting.playerCount == EnumMatchPlayerCount.four
-          ? FourPlayerScoreBoard(match: match)
-          : ThreePlayerScoreBoard(match: match),
+      body: widget.match.setting.playerCount == EnumMatchPlayerCount.four
+          ? FourPlayerScoreBoard(match: widget.match)
+          : ThreePlayerScoreBoard(match: widget.match),
     );
   }
 }

@@ -18,7 +18,7 @@ class RichiButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(0),
           ),
         ),
-        child: Text(
+        child: const Text(
           '●',
           style: TextStyle(
             fontSize: 8,

@@ -17,36 +17,32 @@ class _ThreePlayerScoreBoard extends State<ThreePlayerScoreBoard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const SizedBox(height: 48),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               RotatedBox(
-                quarterTurns: 1,
+                quarterTurns: 2,
                 child: Text(
-                  widget.match.players['player1']!.points.toString(),
+                  widget.match.players['player3']!.playerName,
                   style: const TextStyle(
-                    color: Color.fromRGBO(33, 150, 243, 1),
-                    fontSize: 36,
-                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
-              ThreePlayerScoreBoardCenter(
-                onRichiClick: (String playerId) {
-                  setState(() {
-                    widget.match.clamRichi(playerId);
-                  });
-                },
-                players: widget.match.players,
-                round: widget.match.currentRound,
-              ),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               RotatedBox(
-                quarterTurns: -1,
+                quarterTurns: 2,
                 child: Text(
                   widget.match.players['player3']!.points.toString(),
                   style: const TextStyle(
@@ -56,16 +52,68 @@ class _ThreePlayerScoreBoard extends State<ThreePlayerScoreBoard> {
                   ),
                 ),
               ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(width: 64),
+                  ThreePlayerScoreBoardCenter(
+                    onRichiClick: (String playerId) {
+                      setState(() {
+                        widget.match.clamRichi(playerId);
+                      });
+                    },
+                    players: widget.match.players,
+                    round: widget.match.currentRound,
+                  ),
+                  RotatedBox(
+                    quarterTurns: -1,
+                    child: Text(
+                      widget.match.players['player2']!.points.toString(),
+                      style: const TextStyle(
+                        color: Color.fromRGBO(33, 150, 243, 1),
+                        fontSize: 36,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Text(
+                widget.match.players['player1']!.points.toString(),
+                style: const TextStyle(
+                  color: Color.fromRGBO(33, 150, 243, 1),
+                  fontSize: 36,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
             ],
           ),
-          const SizedBox(height: 12),
-          Text(
-            widget.match.players['player2']!.points.toString(),
-            style: const TextStyle(
-              color: Color.fromRGBO(33, 150, 243, 1),
-              fontSize: 36,
-              fontWeight: FontWeight.w700,
-            ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              RotatedBox(
+                quarterTurns: -1,
+                child: Text(
+                  widget.match.players['player2']!.playerName,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              Text(
+                widget.match.players['player1']!.playerName,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
           ),
         ],
       ),
