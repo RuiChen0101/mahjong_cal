@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class TabBarOptionButton<T> extends StatelessWidget {
-  final T selectedIndex;
+class MultiSelectTabBarOptionButton<T> extends StatelessWidget {
+  final List<T> selectedIndex;
   final List<T> index;
   final List<String> text;
   final ValueChanged<T> onSelect;
 
-  const TabBarOptionButton(
+  const MultiSelectTabBarOptionButton(
       {Key? key,
       required this.selectedIndex,
       required this.index,
@@ -23,7 +23,7 @@ class TabBarOptionButton<T> extends StatelessWidget {
           Expanded(
             child: OutlinedButton(
               onPressed: () => onSelect(index[i]),
-              style: selectedIndex == index[i]
+              style: selectedIndex.contains(index[i])
                   ? OutlinedButton.styleFrom(
                       primary: Colors.white,
                       backgroundColor: const Color.fromRGBO(33, 150, 243, 1),
@@ -56,7 +56,7 @@ class TabBarOptionButton<T> extends StatelessWidget {
           Expanded(
             child: OutlinedButton(
               onPressed: () => onSelect(index[i]),
-              style: selectedIndex == index[i]
+              style: selectedIndex.contains(index[i])
                   ? OutlinedButton.styleFrom(
                       primary: Colors.white,
                       backgroundColor: const Color.fromRGBO(33, 150, 243, 1),
@@ -89,7 +89,7 @@ class TabBarOptionButton<T> extends StatelessWidget {
           Expanded(
             child: OutlinedButton(
               onPressed: () => onSelect(index[i]),
-              style: selectedIndex == index[i]
+              style: selectedIndex.contains(index[i])
                   ? OutlinedButton.styleFrom(
                       primary: Colors.white,
                       backgroundColor: const Color.fromRGBO(33, 150, 243, 1),

@@ -1,3 +1,4 @@
+import 'package:mahjong_cal/constant/enum_round_result_type.dart';
 import 'package:mahjong_cal/constant/player_status.dart';
 import 'package:mahjong_cal/constant/wind_transfer_map.dart';
 import 'package:mahjong_cal/modal/round.dart';
@@ -28,7 +29,7 @@ class Match {
   Map<String, Player> get players => _players;
 
   Match(this._setting, {Map<String, String> playerName = const {}})
-      : _currentRound = Round(EnumWind.east, 1, 1) {
+      : _currentRound = Round(EnumWind.east, 1, 0) {
     if (_setting.playerCount == EnumMatchPlayerCount.three) {
       _players = {
         'player1': Player(playerName['player1'] ?? 'player1',
@@ -68,20 +69,8 @@ class Match {
     }
   }
 
-  void draw(List<String> readyHandPlayers) {
-    DrawResult result = DrawResult(readyHandPlayers);
+  void setRoundResult(RoundResult result) {
     _currentRound.addResult(result);
-    settle();
-  }
-
-  void drawInProgress(String drawType) {
-    DrawInProgressResult result = DrawInProgressResult(drawType);
-    _currentRound.addResult(result);
-    settle();
-  }
-
-  void setWinner(WinningResult tile) {
-    _currentRound.addResult(tile);
   }
 
   void settle() {
@@ -109,13 +98,32 @@ class Match {
 
   void _nextRound() {
     _rounds.add(_currentRound);
+    bool isDealerRemaining = _isDealerRemaining();
     RoundGenerator generator = RoundGenerator();
-    _currentRound = generator.generate(_currentRound, _setting, getDealerId());
-    for (Player player in _players.values) {
-      player.clearStatus();
-      player.wind = _setting.playerCount == EnumMatchPlayerCount.four
-          ? fourPlayerWindTransfer[player.wind]!
-          : threePlayerWindTransfer[player.wind]!;
+    _currentRound =
+        generator.generate(_currentRound, _setting, isDealerRemaining);
+    if (!isDealerRemaining) {
+      for (Player player in _players.values) {
+        player.clearStatus();
+        player.wind = _setting.playerCount == EnumMatchPlayerCount.four
+            ? fourPlayerWindTransfer[player.wind]!
+            : threePlayerWindTransfer[player.wind]!;
+      }
     }
+  }
+
+  bool _isDealerRemaining() {
+    if (_currentRound.resultType == EnumRoundResultType.drawInProgress) {
+      return true;
+    } else if (_currentRound.resultType == EnumRoundResultType.draw) {
+      DrawResult result = _currentRound.results.first as DrawResult;
+      return result.readyHandPlayers.contains(getDealerId());
+    } else if (_currentRound.resultType == EnumRoundResultType.winning) {
+      List<RoundResult> results = _currentRound.results;
+      return results
+          .where((result) => (result as WinningResult).winner == getDealerId())
+          .isNotEmpty;
+    }
+    return false;
   }
 }

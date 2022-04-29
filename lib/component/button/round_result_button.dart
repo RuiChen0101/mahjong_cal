@@ -35,7 +35,7 @@ class RoundResultButton extends StatelessWidget {
           ),
         ),
         OutlinedButton(
-          onPressed: () => onWinning(),
+          onPressed: () => onDraw(),
           style: OutlinedButton.styleFrom(
             primary: Colors.white,
             backgroundColor: Colors.transparent,
@@ -49,7 +49,7 @@ class RoundResultButton extends StatelessWidget {
           ),
         ),
         OutlinedButton(
-          onPressed: () => onWinning(),
+          onPressed: () => onDrawInProgress(),
           style: OutlinedButton.styleFrom(
             primary: Colors.white,
             backgroundColor: Colors.transparent,
@@ -62,7 +62,7 @@ class RoundResultButton extends StatelessWidget {
           ),
           child: const Text(
             '途中流局',
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white),
           ),
         ),
       ],

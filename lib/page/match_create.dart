@@ -32,72 +32,66 @@ class _MatchCreate extends State<MatchCreate> {
           ),
         ),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                '人數',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-              ),
-              TabBarOptionButton(
-                selectedIndex: playerCount,
-                index: const [
-                  EnumMatchPlayerCount.four,
-                  EnumMatchPlayerCount.three
-                ],
-                text: const ['四人', '三人'],
-                onSelect: (dynamic select) {
-                  setState(() {
-                    playerCount = select;
-                  });
-                },
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              const Text(
-                '長度',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-              ),
-              TabBarOptionButton(
-                selectedIndex: matchLength,
-                index: const [
-                  EnumMatchLength.eastWind,
-                  EnumMatchLength.half,
-                  EnumMatchLength.fulls
-                ],
-                text: const ['東風戰', '半莊', '一莊戰'],
-                onSelect: (dynamic select) {
-                  setState(() {
-                    matchLength = select;
-                  });
-                },
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              const Text(
-                '起始點數',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-              ),
-              NumberInput(
-                number: initPoint,
-                onAdd: () {
-                  setState(() {
-                    initPoint += 1000;
-                  });
-                },
-                onMinus: () {
-                  setState(() {
-                    initPoint = max(0, initPoint - 1000);
-                  });
-                },
-              )
-            ],
-          ),
+      body: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              '人數',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+            ),
+            TabBarOptionButton<EnumMatchPlayerCount>(
+              selectedIndex: playerCount,
+              index: const [
+                EnumMatchPlayerCount.four,
+                EnumMatchPlayerCount.three
+              ],
+              text: const ['四人', '三人'],
+              onSelect: (EnumMatchPlayerCount select) {
+                setState(() {
+                  playerCount = select;
+                });
+              },
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              '長度',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+            ),
+            TabBarOptionButton<EnumMatchLength>(
+              selectedIndex: matchLength,
+              index: const [
+                EnumMatchLength.eastWind,
+                EnumMatchLength.half,
+                EnumMatchLength.fulls
+              ],
+              text: const ['東風戰', '半莊', '一莊戰'],
+              onSelect: (EnumMatchLength select) {
+                setState(() {
+                  matchLength = select;
+                });
+              },
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              '起始點數',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+            ),
+            NumberInput(
+              number: initPoint,
+              onAdd: () {
+                setState(() {
+                  initPoint += 1000;
+                });
+              },
+              onMinus: () {
+                setState(() {
+                  initPoint = max(0, initPoint - 1000);
+                });
+              },
+            )
+          ],
         ),
       ),
       bottomSheet: IntrinsicHeight(

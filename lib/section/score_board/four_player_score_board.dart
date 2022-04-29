@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mahjong_cal/data_entity/round_result/draw_in_progress_result.dart';
+import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
+import 'package:mahjong_cal/data_entity/round_result/round_result.dart';
 
 import 'package:mahjong_cal/modal/match.dart';
 import 'package:mahjong_cal/section/score_board/four_player_score_board_center.dart';
@@ -16,7 +19,7 @@ class _FourPlayerScoreBoard extends State<FourPlayerScoreBoard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -82,6 +85,14 @@ class _FourPlayerScoreBoard extends State<FourPlayerScoreBoard> {
                       setState(() {
                         widget.match.clamRichi(playerId);
                       });
+                    },
+                    onHasResult: (RoundResult result) {
+                      widget.match.setRoundResult(result);
+                      if (result is DrawResult ||
+                          result is DrawInProgressResult) {
+                        widget.match.settle();
+                      }
+                      setState(() {});
                     },
                     players: widget.match.players,
                     round: widget.match.currentRound,
