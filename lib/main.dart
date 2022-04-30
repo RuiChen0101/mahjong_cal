@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mahjong_cal/modal/match.dart';
+import 'package:mahjong_cal/page/match_settlement.dart';
 
 import 'package:mahjong_cal/page/menu.dart';
 import 'package:mahjong_cal/page/history.dart';
@@ -70,6 +72,12 @@ class Main extends StatelessWidget {
                 settings: const RouteSettings(name: '/winning_result_create'),
                 builder: (_) => WinningResultCreate(
                       playerCount: settings.arguments as EnumMatchPlayerCount,
+                    ));
+          case '/match_settlement':
+            return MaterialPageRoute<WinningResult>(
+                settings: const RouteSettings(name: '/match_settlement'),
+                builder: (_) => MatchSettlement(
+                      match: settings.arguments as Match,
                     ));
           default:
             return null;

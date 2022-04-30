@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mahjong_cal/data_entity/round_result/draw_in_progress_result.dart';
-import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
-import 'package:mahjong_cal/data_entity/round_result/round_result.dart';
 
 import 'package:mahjong_cal/modal/match.dart';
+import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
+import 'package:mahjong_cal/data_entity/round_result/round_result.dart';
+import 'package:mahjong_cal/data_entity/round_result/draw_in_progress_result.dart';
 import 'package:mahjong_cal/section/score_board/four_player_score_board_center.dart';
 
 class FourPlayerScoreBoard extends StatefulWidget {
@@ -92,10 +92,19 @@ class _FourPlayerScoreBoard extends State<FourPlayerScoreBoard> {
                           result is DrawInProgressResult) {
                         widget.match.settle();
                       }
+                      print(widget.match.isFinished());
+                      if (widget.match.isFinished()) {
+                        Navigator.pushNamed(context, '/match_settlement',
+                            arguments: widget.match);
+                      }
                       setState(() {});
                     },
                     onSettle: () {
                       widget.match.settle();
+                      if (widget.match.isFinished()) {
+                        Navigator.pushNamed(context, '/match_settlement',
+                            arguments: widget.match);
+                      }
                       setState(() {});
                     },
                     players: widget.match.players,
