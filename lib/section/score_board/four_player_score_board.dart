@@ -92,7 +92,6 @@ class _FourPlayerScoreBoard extends State<FourPlayerScoreBoard> {
                           result is DrawInProgressResult) {
                         widget.match.settle();
                       }
-                      print(widget.match.isFinished());
                       if (widget.match.isFinished()) {
                         Navigator.pushNamed(context, '/match_settlement',
                             arguments: widget.match);

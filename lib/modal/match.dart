@@ -102,9 +102,9 @@ class Match {
     RoundGenerator generator = RoundGenerator();
     _currentRound =
         generator.generate(_currentRound, _setting, isDealerRemaining);
-    if (!isDealerRemaining) {
-      for (Player player in _players.values) {
-        player.clearStatus();
+    for (Player player in _players.values) {
+      player.clearStatus();
+      if (!isDealerRemaining) {
         player.wind = _setting.playerCount == EnumMatchPlayerCount.four
             ? fourPlayerWindTransfer[player.wind]!
             : threePlayerWindTransfer[player.wind]!;

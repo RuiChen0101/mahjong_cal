@@ -72,10 +72,18 @@ class _ThreePlayerScoreBoard extends State<ThreePlayerScoreBoard> {
                           result is DrawInProgressResult) {
                         widget.match.settle();
                       }
+                      if (widget.match.isFinished()) {
+                        Navigator.pushNamed(context, '/match_settlement',
+                            arguments: widget.match);
+                      }
                       setState(() {});
                     },
                     onSettle: () {
                       widget.match.settle();
+                      if (widget.match.isFinished()) {
+                        Navigator.pushNamed(context, '/match_settlement',
+                            arguments: widget.match);
+                      }
                       setState(() {});
                     },
                     players: widget.match.players,
