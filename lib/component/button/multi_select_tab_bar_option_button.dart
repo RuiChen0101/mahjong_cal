@@ -46,6 +46,7 @@ class MultiSelectTabBarOptionButton<T> extends StatelessWidget {
                     ),
               child: Text(
                 text[i],
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(color: Colors.white),
               ),
             ),
@@ -79,6 +80,7 @@ class MultiSelectTabBarOptionButton<T> extends StatelessWidget {
                     ),
               child: Text(
                 text[i],
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(color: Colors.white),
               ),
             ),
@@ -106,6 +108,7 @@ class MultiSelectTabBarOptionButton<T> extends StatelessWidget {
                     ),
               child: Text(
                 text[i],
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(color: Colors.white),
               ),
             ),

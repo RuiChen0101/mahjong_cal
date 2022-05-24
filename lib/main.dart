@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:mahjong_cal/modal/match.dart';
-import 'package:mahjong_cal/page/match_settlement.dart';
 
 import 'package:mahjong_cal/page/menu.dart';
+import 'package:mahjong_cal/modal/match.dart';
+import 'package:mahjong_cal/modal/player.dart';
 import 'package:mahjong_cal/page/history.dart';
 import 'package:mahjong_cal/page/score_board.dart';
 import 'package:mahjong_cal/key/navigator_key.dart';
 import 'package:mahjong_cal/page/match_create.dart';
+import 'package:mahjong_cal/page/match_settlement.dart';
 import 'package:mahjong_cal/data_entity/match_setting.dart';
-import 'package:mahjong_cal/constant/enum_match_player_count.dart';
 import 'package:mahjong_cal/page/round_result/draw_result_create.dart';
 import 'package:mahjong_cal/page/round_result/winning_result_create.dart';
 import 'package:mahjong_cal/data_entity/round_result/winning_result.dart';
@@ -60,7 +60,7 @@ class Main extends StatelessWidget {
             return MaterialPageRoute<List<String>>(
                 settings: const RouteSettings(name: '/draw_result_create'),
                 builder: (_) => DrawResultCreate(
-                      playerCount: settings.arguments as EnumMatchPlayerCount,
+                      players: settings.arguments as List<Player>,
                     ));
           case '/draw_in_progress_result_create':
             return MaterialPageRoute<String>(
@@ -68,10 +68,13 @@ class Main extends StatelessWidget {
                     name: '/draw_in_progress_result_create'),
                 builder: (_) => const DrawInProgressResultCreate());
           case '/winning_result_create':
+            Map<String, dynamic> arguments =
+                settings.arguments! as Map<String, dynamic>;
             return MaterialPageRoute<WinningResult>(
                 settings: const RouteSettings(name: '/winning_result_create'),
                 builder: (_) => WinningResultCreate(
-                      playerCount: settings.arguments as EnumMatchPlayerCount,
+                      players: arguments['players'] as List<Player>,
+                      winner: arguments['winner'] as String,
                     ));
           case '/match_settlement':
             return MaterialPageRoute<WinningResult>(

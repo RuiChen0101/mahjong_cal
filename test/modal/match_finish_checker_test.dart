@@ -15,16 +15,16 @@ void main() {
       expect(
           checker.isFinished(
               Round(EnumWind.north, 1, 1),
-              const MatchSetting(
-                  EnumMatchLength.eastWind, EnumMatchPlayerCount.four, 25000),
-              [Player('player1', 31000, EnumWind.east)]),
+              const MatchSetting(EnumMatchLength.eastWind,
+                  EnumMatchPlayerCount.four, 25000, {}),
+              [Player('player1', 'player1', 31000, EnumWind.east)]),
           true);
       expect(
           checker.isFinished(
               Round(EnumWind.east, 1, 1),
-              const MatchSetting(
-                  EnumMatchLength.eastWind, EnumMatchPlayerCount.four, 25000),
-              [Player('player1', 31000, EnumWind.east)]),
+              const MatchSetting(EnumMatchLength.eastWind,
+                  EnumMatchPlayerCount.four, 25000, {}),
+              [Player('player1', 'player1', 31000, EnumWind.east)]),
           false);
     });
 
@@ -35,29 +35,29 @@ void main() {
           checker.isFinished(
               Round(EnumWind.west, 1, 1),
               const MatchSetting(
-                  EnumMatchLength.half, EnumMatchPlayerCount.four, 25000),
-              [Player('player1', 31000, EnumWind.east)]),
+                  EnumMatchLength.half, EnumMatchPlayerCount.four, 25000, {}),
+              [Player('player1', 'player1', 31000, EnumWind.east)]),
           true);
       expect(
           checker.isFinished(
               Round(EnumWind.south, 4, 1),
               const MatchSetting(
-                  EnumMatchLength.half, EnumMatchPlayerCount.four, 25000),
-              [Player('player1', 31000, EnumWind.east)]),
+                  EnumMatchLength.half, EnumMatchPlayerCount.four, 25000, {}),
+              [Player('player1', 'player1', 31000, EnumWind.east)]),
           false);
       expect(
           checker.isFinished(
               Round(EnumWind.north, 1, 1),
               const MatchSetting(
-                  EnumMatchLength.half, EnumMatchPlayerCount.three, 25000),
-              [Player('player1', 31000, EnumWind.east)]),
+                  EnumMatchLength.half, EnumMatchPlayerCount.three, 25000, {}),
+              [Player('player1', 'player1', 31000, EnumWind.east)]),
           true);
       expect(
           checker.isFinished(
               Round(EnumWind.east, 4, 1),
               const MatchSetting(
-                  EnumMatchLength.half, EnumMatchPlayerCount.three, 25000),
-              [Player('player1', 31000, EnumWind.east)]),
+                  EnumMatchLength.half, EnumMatchPlayerCount.three, 25000, {}),
+              [Player('player1', 'player1', 31000, EnumWind.east)]),
           false);
     });
 
@@ -68,15 +68,15 @@ void main() {
           checker.isFinished(
               Round(EnumWind.east, 5, 1),
               const MatchSetting(
-                  EnumMatchLength.fulls, EnumMatchPlayerCount.four, 25000),
-              [Player('player1', 31000, EnumWind.east)]),
+                  EnumMatchLength.fulls, EnumMatchPlayerCount.four, 25000, {}),
+              [Player('player1', 'player1', 31000, EnumWind.east)]),
           true);
       expect(
           checker.isFinished(
               Round(EnumWind.north, 4, 1),
               const MatchSetting(
-                  EnumMatchLength.fulls, EnumMatchPlayerCount.four, 25000),
-              [Player('player1', 31000, EnumWind.east)]),
+                  EnumMatchLength.fulls, EnumMatchPlayerCount.four, 25000, {}),
+              [Player('player1', 'player1', 31000, EnumWind.east)]),
           false);
     });
 
@@ -85,8 +85,8 @@ void main() {
           checker.isFinished(
               Round(EnumWind.east, 5, 1),
               const MatchSetting(
-                  EnumMatchLength.fulls, EnumMatchPlayerCount.four, 25000),
-              [Player('player1', 25000, EnumWind.east)]),
+                  EnumMatchLength.fulls, EnumMatchPlayerCount.four, 25000, {}),
+              [Player('player1', 'player1', 25000, EnumWind.east)]),
           false);
     });
   });

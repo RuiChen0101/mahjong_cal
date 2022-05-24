@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mahjong_cal/constant/enum_match_player_count.dart';
-import 'package:mahjong_cal/data_entity/round_result/draw_in_progress_result.dart';
-import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
-import 'package:mahjong_cal/data_entity/round_result/winning_result.dart';
 
 import 'package:mahjong_cal/modal/round.dart';
 import 'package:mahjong_cal/modal/player.dart';
@@ -10,8 +6,11 @@ import 'package:mahjong_cal/constant/player_status.dart';
 import 'package:mahjong_cal/constant/wind_translate_map.dart';
 import 'package:mahjong_cal/component/button/richi_button.dart';
 import 'package:mahjong_cal/component/text/player_wind_text.dart';
+import 'package:mahjong_cal/constant/enum_match_player_count.dart';
+import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
 import 'package:mahjong_cal/component/button/round_result_button.dart';
 import 'package:mahjong_cal/data_entity/round_result/round_result.dart';
+import 'package:mahjong_cal/data_entity/round_result/draw_in_progress_result.dart';
 
 class FourPlayerScoreBoardCenter extends StatelessWidget {
   final ValueChanged<String> onRichiClick;
@@ -34,7 +33,7 @@ class FourPlayerScoreBoardCenter extends StatelessWidget {
     double height = MediaQuery.of(context).size.height * 0.65;
     double buttonHigh = 28;
     return Container(
-      width: height + 75,
+      width: height + 20,
       height: height,
       decoration: BoxDecoration(
         border: Border.all(
@@ -104,20 +103,11 @@ class FourPlayerScoreBoardCenter extends StatelessWidget {
                       RoundResultButton(
                         settleMode: round.resultType != null,
                         onSettle: () => onSettle(),
-                        onWinning: () async {
-                          WinningResult? result =
-                              await Navigator.pushNamed<WinningResult>(
-                                  context, '/winning_result_create',
-                                  arguments: EnumMatchPlayerCount.four);
-                          if (result != null) {
-                            onHasResult(result);
-                          }
-                        },
                         onDraw: () async {
                           List<String>? readyHandPlayers =
                               await Navigator.pushNamed<List<String>>(
                                   context, '/draw_result_create',
-                                  arguments: EnumMatchPlayerCount.four);
+                                  arguments: players.values.toList());
                           if (readyHandPlayers != null) {
                             onHasResult(DrawResult(readyHandPlayers));
                           }

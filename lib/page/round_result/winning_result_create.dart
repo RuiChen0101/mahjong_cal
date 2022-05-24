@@ -1,17 +1,20 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:mahjong_cal/component/button/tab_bar_option_button.dart';
-import 'package:mahjong_cal/component/button/winning_tile_button.dart';
-import 'package:mahjong_cal/component/input/number_input.dart';
-import 'package:mahjong_cal/constant/enum_match_player_count.dart';
+
+import 'package:mahjong_cal/modal/player.dart';
 import 'package:mahjong_cal/constant/enum_win_type.dart';
+import 'package:mahjong_cal/component/visibility_widget.dart';
+import 'package:mahjong_cal/component/input/number_input.dart';
+import 'package:mahjong_cal/component/button/winning_tile_button.dart';
+import 'package:mahjong_cal/component/button/tab_bar_option_button.dart';
 import 'package:mahjong_cal/data_entity/round_result/winning_result.dart';
 
 class WinningResultCreate extends StatefulWidget {
-  final EnumMatchPlayerCount playerCount;
+  final List<Player> players;
+  final String winner;
 
-  const WinningResultCreate({Key? key, required this.playerCount})
+  const WinningResultCreate(
+      {Key? key, required this.players, required this.winner})
       : super(key: key);
 
   @override
@@ -19,7 +22,6 @@ class WinningResultCreate extends StatefulWidget {
 }
 
 class _WinningResultCreate extends State<WinningResultCreate> {
-  String winner = 'player1';
   EnumWinType winType = EnumWinType.selfDraw;
   int fu = 20;
   Map<int, List<String>> tile = {};
@@ -29,9 +31,12 @@ class _WinningResultCreate extends State<WinningResultCreate> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> option = widget.playerCount == EnumMatchPlayerCount.four
-        ? ['player1', 'player2', 'player3', 'player4']
-        : ['player1', 'player2', 'player3'];
+    List<String> index = [];
+    List<String> option = [];
+    for (Player player in widget.players) {
+      index.add(player.id);
+      option.add(player.playerName);
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('和'),
@@ -75,7 +80,7 @@ class _WinningResultCreate extends State<WinningResultCreate> {
               han += ((tile[13] ?? []).length * 13);
               Navigator.pop(
                   context,
-                  WinningResult(winner, winType, resultTile, han, fu,
+                  WinningResult(widget.winner, winType, resultTile, han, fu,
                       chucker: chucker));
             },
           ),
@@ -87,20 +92,6 @@ class _WinningResultCreate extends State<WinningResultCreate> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                '贏家',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-              ),
-              TabBarOptionButton<String>(
-                selectedIndex: winner,
-                index: option,
-                text: option,
-                onSelect: (String select) {
-                  setState(() {
-                    winner = select;
-                  });
-                },
-              ),
               TabBarOptionButton<EnumWinType>(
                 selectedIndex: winType,
                 index: const [EnumWinType.selfDraw, EnumWinType.ron],
@@ -111,28 +102,29 @@ class _WinningResultCreate extends State<WinningResultCreate> {
                   });
                 },
               ),
-              winType == EnumWinType.ron
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          '放槍',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w500),
-                        ),
-                        TabBarOptionButton<String>(
-                          selectedIndex: chucker,
-                          index: option,
-                          text: option,
-                          onSelect: (String select) {
-                            setState(() {
-                              chucker = select;
-                            });
-                          },
-                        ),
-                      ],
-                    )
-                  : Container(),
+              VisibilityWidget(
+                visibility: winType == EnumWinType.ron,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      '放槍',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                    ),
+                    TabBarOptionButton<String>(
+                      selectedIndex: chucker,
+                      index: index,
+                      text: option,
+                      onSelect: (String select) {
+                        setState(() {
+                          chucker = select;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
               const Text(
                 '符',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),

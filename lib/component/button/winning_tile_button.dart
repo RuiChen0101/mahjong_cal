@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class WinningTileButton extends StatelessWidget {
-  final List<String> selectedIndex;
   final List<String> text;
+  final List<String> selectedIndex;
   final ValueChanged<String> onSelect;
 
   const WinningTileButton(
@@ -19,7 +19,7 @@ class WinningTileButton extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 6,
+        crossAxisCount: 5,
         mainAxisSpacing: 8,
         crossAxisSpacing: 8,
         childAspectRatio: 3,

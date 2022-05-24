@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mahjong_cal/data_entity/round_result/winning_result.dart';
+import 'package:mahjong_cal/constant/enum_win_type.dart';
 import 'package:mahjong_cal/data_entity/transfer_request.dart';
 import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
+import 'package:mahjong_cal/data_entity/round_result/winning_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/draw_in_progress_result.dart';
-import 'package:mahjong_cal/constant/enum_win_type.dart';
 import 'package:mahjong_cal/modal/point_transfer_calculator/four_player_point_transfer_calculator.dart';
 
 void main() {
@@ -96,6 +96,25 @@ void main() {
         List<TransferRequest> request = calculator.calculate(result, "player1");
         expect(request.length, 1);
         expect(request[0], const TransferRequest("player3", "player2", 32000));
+      });
+
+      test('test small point selfDraw', () {
+        WinningResult result =
+            WinningResult("player2", EnumWinType.selfDraw, ['立直'], 1, 30);
+        List<TransferRequest> request = calculator.calculate(result, "player1");
+        expect(request.length, 3);
+        expect(request[0], const TransferRequest("player1", "player2", 500));
+        expect(request[1], const TransferRequest("player3", "player2", 300));
+        expect(request[2], const TransferRequest("player4", "player2", 300));
+      });
+
+      test('test small point ron', () {
+        WinningResult result = WinningResult(
+            "player2", EnumWinType.ron, ['立直'], 1, 30,
+            chucker: 'player3');
+        List<TransferRequest> request = calculator.calculate(result, "player1");
+        expect(request.length, 1);
+        expect(request[0], const TransferRequest("player3", "player2", 1000));
       });
     });
   });

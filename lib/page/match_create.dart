@@ -1,10 +1,12 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:mahjong_cal/data_entity/match_setting.dart';
 
+import 'package:mahjong_cal/data_entity/match_setting.dart';
 import 'package:mahjong_cal/constant/enum_match_length.dart';
+import 'package:mahjong_cal/component/visibility_widget.dart';
 import 'package:mahjong_cal/component/input/number_input.dart';
 import 'package:mahjong_cal/constant/enum_match_player_count.dart';
+import 'package:mahjong_cal/component/dialog/platform_input_dialog.dart';
 import 'package:mahjong_cal/component/button/tab_bar_option_button.dart';
 
 class MatchCreate extends StatefulWidget {
@@ -17,6 +19,12 @@ class MatchCreate extends StatefulWidget {
 class _MatchCreate extends State<MatchCreate> {
   EnumMatchPlayerCount playerCount = EnumMatchPlayerCount.four;
   EnumMatchLength matchLength = EnumMatchLength.eastWind;
+  Map<String, String> playerName = {
+    'player1': 'player1',
+    'player2': 'player2',
+    'player3': 'player3',
+    'player4': 'player4',
+  };
   int initPoint = 25000;
 
   @override
@@ -90,6 +98,119 @@ class _MatchCreate extends State<MatchCreate> {
                   initPoint = max(0, initPoint - 1000);
                 });
               },
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              '玩家名稱',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 8),
+            IntrinsicHeight(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () => _onPlayerNameEdit('player1'),
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 120),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'player1',
+                            ),
+                            Text(
+                              playerName['player1']!,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                color: Color.fromRGBO(33, 150, 243, 1),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    GestureDetector(
+                      onTap: () => _onPlayerNameEdit('player2'),
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 120),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'player2',
+                            ),
+                            Text(
+                              playerName['player2']!,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                color: Color.fromRGBO(33, 150, 243, 1),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    GestureDetector(
+                      onTap: () => _onPlayerNameEdit('player3'),
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 120),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'player3',
+                            ),
+                            Text(
+                              playerName['player3']!,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                color: Color.fromRGBO(33, 150, 243, 1),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    VisibilityWidget(
+                      visibility: playerCount == EnumMatchPlayerCount.four,
+                      child: GestureDetector(
+                        onTap: () => _onPlayerNameEdit('player4'),
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 120),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'player4',
+                              ),
+                              Text(
+                                playerName['player4']!,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  color: Color.fromRGBO(33, 150, 243, 1),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             )
           ],
         ),
@@ -113,7 +234,8 @@ class _MatchCreate extends State<MatchCreate> {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: OutlinedButton(
               onPressed: () => Navigator.pushNamed(context, '/score_board',
-                  arguments: MatchSetting(matchLength, playerCount, initPoint)),
+                  arguments: MatchSetting(
+                      matchLength, playerCount, initPoint, playerName)),
               style: OutlinedButton.styleFrom(
                 primary: Colors.white,
                 backgroundColor: const Color.fromRGBO(33, 150, 243, 1),
@@ -126,6 +248,28 @@ class _MatchCreate extends State<MatchCreate> {
           ),
         ),
       ),
+    );
+  }
+
+  void _onPlayerNameEdit(String playerId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return PlatformInputDialog(
+          initText: playerName[playerId],
+          maxLength: 10,
+          title: const Text(
+            '輸入玩家名稱',
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          okText: '確認',
+          onInputSubmit: (String text) => setState(() {
+            playerName[playerId] = text;
+          }),
+        );
+      },
     );
   }
 }

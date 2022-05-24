@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:mahjong_cal/modal/match.dart';
-import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/round_result.dart';
-import 'package:mahjong_cal/data_entity/round_result/draw_in_progress_result.dart';
+import 'package:mahjong_cal/data_entity/round_result/winning_result.dart';
 import 'package:mahjong_cal/section/score_board/four_player_score_board_center.dart';
 
 class FourPlayerScoreBoard extends StatefulWidget {
@@ -29,23 +28,29 @@ class _FourPlayerScoreBoard extends State<FourPlayerScoreBoard> {
             children: [
               RotatedBox(
                 quarterTurns: 2,
-                child: Text(
-                  widget.match.players['player3']!.playerName,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+                child: GestureDetector(
+                  onTap: () async => _onWinning('player3'),
+                  child: Text(
+                    widget.match.players['player3']!.playerName,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),
               RotatedBox(
                 quarterTurns: 1,
-                child: Text(
-                  widget.match.players['player4']!.playerName,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+                child: GestureDetector(
+                  onTap: () async => _onWinning('player4'),
+                  child: Text(
+                    widget.match.players['player4']!.playerName,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),
@@ -65,7 +70,6 @@ class _FourPlayerScoreBoard extends State<FourPlayerScoreBoard> {
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -88,10 +92,7 @@ class _FourPlayerScoreBoard extends State<FourPlayerScoreBoard> {
                     },
                     onHasResult: (RoundResult result) {
                       widget.match.setRoundResult(result);
-                      if (result is DrawResult ||
-                          result is DrawInProgressResult) {
-                        widget.match.settle();
-                      }
+                      widget.match.settle();
                       if (widget.match.isFinished()) {
                         Navigator.pushNamed(context, '/match_settlement',
                             arguments: widget.match);
@@ -122,7 +123,6 @@ class _FourPlayerScoreBoard extends State<FourPlayerScoreBoard> {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
               Text(
                 widget.match.players['player1']!.points.toString(),
                 style: const TextStyle(
@@ -139,8 +139,22 @@ class _FourPlayerScoreBoard extends State<FourPlayerScoreBoard> {
             children: [
               RotatedBox(
                 quarterTurns: -1,
+                child: GestureDetector(
+                  onTap: () async => _onWinning('player2'),
+                  child: Text(
+                    widget.match.players['player2']!.playerName,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () async => _onWinning('player1'),
                 child: Text(
-                  widget.match.players['player2']!.playerName,
+                  widget.match.players['player1']!.playerName,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -148,18 +162,21 @@ class _FourPlayerScoreBoard extends State<FourPlayerScoreBoard> {
                   ),
                 ),
               ),
-              Text(
-                widget.match.players['player1']!.playerName,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
             ],
           ),
         ],
       ),
     );
+  }
+
+  Future<void> _onWinning(String playerId) async {
+    WinningResult? result = await Navigator.pushNamed<WinningResult>(
+        context, '/winning_result_create', arguments: {
+      'players': widget.match.players.values.toList(),
+      'winner': playerId
+    });
+    if (result == null) return;
+    widget.match.setRoundResult(result);
+    setState(() {});
   }
 }

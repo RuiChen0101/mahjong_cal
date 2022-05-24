@@ -17,8 +17,8 @@ void main() {
       expect(
           generator.generate(
               round,
-              const MatchSetting(
-                  EnumMatchLength.eastWind, EnumMatchPlayerCount.four, 25000),
+              const MatchSetting(EnumMatchLength.eastWind,
+                  EnumMatchPlayerCount.four, 25000, {}),
               true),
           Round(EnumWind.east, 1, 1));
     });
@@ -30,8 +30,8 @@ void main() {
         expect(
             generator.generate(
                 round,
-                const MatchSetting(
-                    EnumMatchLength.eastWind, EnumMatchPlayerCount.four, 25000),
+                const MatchSetting(EnumMatchLength.eastWind,
+                    EnumMatchPlayerCount.four, 25000, {}),
                 false),
             Round(EnumWind.east, 2, 0));
       });
@@ -42,8 +42,8 @@ void main() {
         expect(
             generator.generate(
                 round,
-                const MatchSetting(
-                    EnumMatchLength.eastWind, EnumMatchPlayerCount.four, 25000),
+                const MatchSetting(EnumMatchLength.eastWind,
+                    EnumMatchPlayerCount.four, 25000, {}),
                 false),
             Round(EnumWind.south, 1, 0));
       });
@@ -54,8 +54,8 @@ void main() {
         expect(
             generator.generate(
                 round,
-                const MatchSetting(
-                    EnumMatchLength.eastWind, EnumMatchPlayerCount.four, 25000),
+                const MatchSetting(EnumMatchLength.eastWind,
+                    EnumMatchPlayerCount.four, 25000, {}),
                 false),
             Round(EnumWind.east, 5, 0));
       });
@@ -69,7 +69,7 @@ void main() {
             generator.generate(
                 round,
                 const MatchSetting(EnumMatchLength.eastWind,
-                    EnumMatchPlayerCount.three, 25000),
+                    EnumMatchPlayerCount.three, 25000, {}),
                 false),
             Round(EnumWind.east, 2, 0));
       });
@@ -81,7 +81,7 @@ void main() {
             generator.generate(
                 round,
                 const MatchSetting(EnumMatchLength.eastWind,
-                    EnumMatchPlayerCount.three, 25000),
+                    EnumMatchPlayerCount.three, 25000, {}),
                 false),
             Round(EnumWind.south, 1, 0));
       });
@@ -93,7 +93,7 @@ void main() {
             generator.generate(
                 round,
                 const MatchSetting(EnumMatchLength.eastWind,
-                    EnumMatchPlayerCount.three, 25000),
+                    EnumMatchPlayerCount.three, 25000, {}),
                 false),
             Round(EnumWind.east, 4, 0));
       });

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:mahjong_cal/constant/player_status.dart';
+
+import 'package:mahjong_cal/modal/player.dart';
 import 'package:mahjong_cal/component/button/multi_select_tab_bar_option_button.dart';
-import 'package:mahjong_cal/constant/enum_match_player_count.dart';
 
 class DrawResultCreate extends StatefulWidget {
-  final EnumMatchPlayerCount playerCount;
+  final List<Player> players;
 
-  const DrawResultCreate({Key? key, required this.playerCount})
-      : super(key: key);
+  const DrawResultCreate({Key? key, required this.players}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _DrawResultCreate();
@@ -17,9 +18,15 @@ class _DrawResultCreate extends State<DrawResultCreate> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> option = widget.playerCount == EnumMatchPlayerCount.four
-        ? ['player1', 'player2', 'player3', 'player4']
-        : ['player1', 'player2', 'player3'];
+    List<String> index = [];
+    List<String> option = [];
+    for (Player player in widget.players) {
+      index.add(player.id);
+      option.add(player.playerName);
+      if (player.checkStatus(PlayerStatus.RICHI)) {
+        readyHandPlayers.add(player.id);
+      }
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('荒牌流局'),
@@ -55,7 +62,7 @@ class _DrawResultCreate extends State<DrawResultCreate> {
             ),
             MultiSelectTabBarOptionButton<String>(
               selectedIndex: readyHandPlayers,
-              index: option,
+              index: index,
               text: option,
               onSelect: (String select) {
                 if (readyHandPlayers.contains(select)) {
