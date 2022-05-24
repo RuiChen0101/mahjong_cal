@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mahjong_cal/page/connectable_list.dart';
 
 import 'package:mahjong_cal/page/menu.dart';
 import 'package:mahjong_cal/modal/match.dart';
@@ -46,6 +47,10 @@ class Main extends StatelessWidget {
             return MaterialPageRoute(
                 settings: const RouteSettings(name: '/history'),
                 builder: (_) => const History());
+          case '/connectable_list':
+            return MaterialPageRoute(
+                settings: const RouteSettings(name: '/connectable_list'),
+                builder: (_) => const ConnectableList());
           case '/create_match':
             return MaterialPageRoute(
                 settings: const RouteSettings(name: '/create_match'),

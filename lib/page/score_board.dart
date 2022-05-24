@@ -4,6 +4,7 @@ import 'package:mahjong_cal/constant/enum_match_player_count.dart';
 
 import 'package:mahjong_cal/modal/match.dart';
 import 'package:mahjong_cal/data_entity/match_setting.dart';
+import 'package:mahjong_cal/modal/network/game_server.dart';
 import 'package:mahjong_cal/section/score_board/four_player_score_board.dart';
 import 'package:mahjong_cal/section/score_board/three_player_score_board.dart';
 
@@ -19,10 +20,11 @@ class ScoreBoard extends StatefulWidget {
 }
 
 class _ScoreBoard extends State<ScoreBoard> {
+  GameServer server = GameServer();
   @override
   void initState() {
     super.initState();
-
+    server.start();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
     ]);
@@ -31,6 +33,7 @@ class _ScoreBoard extends State<ScoreBoard> {
 
   @override
   void dispose() {
+    server.stop();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: SystemUiOverlay.values);

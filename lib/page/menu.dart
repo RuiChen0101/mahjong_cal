@@ -42,7 +42,9 @@ class Menu extends StatelessWidget {
               width: width,
               height: width,
               child: OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/connectable_list');
+                },
                 child: const Text('連線'),
               ),
             )
