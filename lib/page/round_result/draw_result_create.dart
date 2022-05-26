@@ -23,7 +23,7 @@ class _DrawResultCreate extends State<DrawResultCreate> {
     for (Player player in widget.players) {
       index.add(player.id);
       option.add(player.playerName);
-      if (player.checkStatus(PlayerStatus.RICHI)) {
+      if (player.checkStatus(PlayerStatus.richi)) {
         readyHandPlayers.add(player.id);
       }
     }

@@ -83,7 +83,7 @@ class Match {
   void clamRichi(String playerId) {
     Player player = _players[playerId]!;
     if (player.points >= 1000) {
-      player.setStatus(PlayerStatus.RICHI);
+      player.setStatus(PlayerStatus.richi);
       player.transfer(null, 1000);
     }
   }

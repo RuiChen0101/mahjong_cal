@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mahjong_cal/page/connectable_list.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:mahjong_cal/page/menu.dart';
 import 'package:mahjong_cal/modal/match.dart';
@@ -8,7 +8,10 @@ import 'package:mahjong_cal/page/history.dart';
 import 'package:mahjong_cal/page/score_board.dart';
 import 'package:mahjong_cal/key/navigator_key.dart';
 import 'package:mahjong_cal/page/match_create.dart';
+import 'package:mahjong_cal/page/connectable_list.dart';
 import 'package:mahjong_cal/page/match_settlement.dart';
+import 'package:mahjong_cal/data_entity/server_info.dart';
+import 'package:mahjong_cal/page/player_connect_page.dart';
 import 'package:mahjong_cal/data_entity/match_setting.dart';
 import 'package:mahjong_cal/page/round_result/draw_result_create.dart';
 import 'package:mahjong_cal/page/round_result/winning_result_create.dart';
@@ -51,6 +54,12 @@ class Main extends StatelessWidget {
             return MaterialPageRoute(
                 settings: const RouteSettings(name: '/connectable_list'),
                 builder: (_) => const ConnectableList());
+          case '/player_connect':
+            return MaterialPageRoute(
+                settings: const RouteSettings(name: '/player_connect'),
+                builder: (_) => PlayerConnectPage(
+                      info: settings.arguments as ServerInfo,
+                    ));
           case '/create_match':
             return MaterialPageRoute(
                 settings: const RouteSettings(name: '/create_match'),
@@ -91,6 +100,9 @@ class Main extends StatelessWidget {
             return null;
         }
       },
+      builder: EasyLoading.init(
+        builder: (BuildContext context, Widget? child) => child ?? Container(),
+      ),
     );
   }
 }

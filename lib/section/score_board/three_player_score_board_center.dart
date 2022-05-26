@@ -58,7 +58,7 @@ class ThreePlayerScoreBoardCenter extends StatelessWidget {
                   child: RichiButton(
                     onClick: () => onRichiClick('player3'),
                     isRichi:
-                        players['player3']!.checkStatus(PlayerStatus.RICHI),
+                        players['player3']!.checkStatus(PlayerStatus.richi),
                   ),
                 ),
               ),
@@ -122,7 +122,7 @@ class ThreePlayerScoreBoardCenter extends StatelessWidget {
                     child: RichiButton(
                       onClick: () => onRichiClick('player2'),
                       isRichi:
-                          players['player2']!.checkStatus(PlayerStatus.RICHI),
+                          players['player2']!.checkStatus(PlayerStatus.richi),
                     ),
                   ),
                 ],
@@ -141,7 +141,7 @@ class ThreePlayerScoreBoardCenter extends StatelessWidget {
                   child: RichiButton(
                     onClick: () => onRichiClick('player1'),
                     isRichi:
-                        players['player1']!.checkStatus(PlayerStatus.RICHI),
+                        players['player1']!.checkStatus(PlayerStatus.richi),
                   ),
                 ),
               ),

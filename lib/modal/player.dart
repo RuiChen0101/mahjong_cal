@@ -23,6 +23,10 @@ class Player {
     _status |= s;
   }
 
+  void removeState(int s) {
+    _status &= (~s);
+  }
+
   void clearStatus() {
     _status = 0;
   }
