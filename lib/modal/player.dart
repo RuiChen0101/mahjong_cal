@@ -1,4 +1,5 @@
 import 'package:mahjong_cal/constant/enum_wind.dart';
+import 'package:mahjong_cal/data_entity/transfer_object/player_transfer_object.dart';
 
 class Player {
   final String _id;
@@ -13,6 +14,10 @@ class Player {
   bool get isDealer => wind == EnumWind.east;
 
   Player(this._id, this._playerName, this._points, this.wind);
+
+  PlayerTransferObject toTransferObject() {
+    return PlayerTransferObject(_id, _playerName, wind, _points, _status);
+  }
 
   void transfer(Player? to, int amount) {
     _points -= amount;

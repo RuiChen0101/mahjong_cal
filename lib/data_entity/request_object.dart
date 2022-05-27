@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+
 import 'package:mahjong_cal/constant/request_type.dart';
 
 part 'request_object.g.dart';

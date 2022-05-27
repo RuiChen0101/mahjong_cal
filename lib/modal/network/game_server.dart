@@ -2,11 +2,11 @@ import 'dart:io';
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:mahjong_cal/constant/player_status.dart';
 import 'package:mahjong_cal/modal/match.dart';
 import 'package:mahjong_cal/modal/player.dart';
 import 'package:mahjong_cal/constant/constant.dart';
 import 'package:mahjong_cal/constant/request_type.dart';
+import 'package:mahjong_cal/constant/player_status.dart';
 import 'package:mahjong_cal/data_entity/server_info.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 import 'package:mahjong_cal/data_entity/request_object.dart';
@@ -16,11 +16,13 @@ class GameServer {
   ServerSocket? server;
   String ip = '';
   Map<String, Socket> sockets = {};
+  Map<String, String> connectedClient = {};
 
   GameServer(this.match);
 
   Future<void> start() async {
     try {
+      match.onUpdate = _onMatchUpdate;
       NetworkInfo info = NetworkInfo();
       ip = (await info.getWifiIP())!;
       server = await ServerSocket.bind('0.0.0.0', Constant.servicePort);
@@ -44,6 +46,11 @@ class GameServer {
         onDone: () {
       sockets[address]!.destroy();
       sockets.remove(address);
+      if (connectedClient[address] != null) {
+        match.players[connectedClient[address]!]!
+            .removeState(PlayerStatus.connected);
+        connectedClient.remove(address);
+      }
     });
   }
 
@@ -62,7 +69,19 @@ class GameServer {
       case RequestType.connect:
         String playerId = req.data!;
         match.players[playerId]!.setStatus(PlayerStatus.connected);
+        connectedClient[address] = playerId;
+        sockets[address]!
+            .add(jsonEncode(match.toTransferObject().toJson()).codeUnits);
         break;
+    }
+  }
+
+  void _onMatchUpdate() {
+    List<int> encodedMatch =
+        jsonEncode(match.toTransferObject().toJson()).codeUnits;
+    for (String address in connectedClient.keys) {
+      if (sockets[address] == null) continue;
+      sockets[address]!.add(encodedMatch);
     }
   }
 }

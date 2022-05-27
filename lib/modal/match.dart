@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:mahjong_cal/modal/round.dart';
 import 'package:mahjong_cal/modal/player.dart';
 import 'package:mahjong_cal/constant/enum_wind.dart';
@@ -12,6 +13,8 @@ import 'package:mahjong_cal/constant/enum_match_player_count.dart';
 import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/round_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/winning_result.dart';
+import 'package:mahjong_cal/data_entity/transfer_object/match_transfer_object.dart';
+import 'package:mahjong_cal/data_entity/transfer_object/player_transfer_object.dart';
 import 'package:mahjong_cal/modal/point_transfer_calculator/point_transfer_calculator.dart';
 import 'package:mahjong_cal/modal/point_transfer_calculator/four_player_point_transfer_calculator.dart';
 import 'package:mahjong_cal/modal/point_transfer_calculator/three_player_point_transfer_calculator.dart';
@@ -21,11 +24,16 @@ class Match {
   late Map<String, Player> _players;
   Round _currentRound;
   final List<Round> _rounds = [];
+  VoidCallback? _onUpdate;
 
   Round get currentRound => _currentRound;
   List<Round> get rounds => _rounds;
   MatchSetting get setting => _setting;
   Map<String, Player> get players => _players;
+
+  set onUpdate(VoidCallback callback) {
+    _onUpdate = callback;
+  }
 
   Match(this._setting) : _currentRound = Round(EnumWind.east, 1, 0) {
     if (_setting.playerCount == EnumMatchPlayerCount.three) {
@@ -72,6 +80,14 @@ class Match {
     }
   }
 
+  MatchTransferObject toTransferObject() {
+    Map<String, PlayerTransferObject> transferPlayer = {};
+    for (String playerId in _players.keys) {
+      transferPlayer[playerId] = _players[playerId]!.toTransferObject();
+    }
+    return MatchTransferObject(transferPlayer, currentRound.toTransferObject());
+  }
+
   String getDealerId() {
     String result = "";
     _players.forEach((id, player) {
@@ -107,6 +123,7 @@ class Match {
       _players[result.from]!.transfer(_players[result.to]!, result.amount);
     }
     _nextRound();
+    (_onUpdate ?? () {})();
   }
 
   bool isFinished() {
