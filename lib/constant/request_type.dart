@@ -1,1 +1,1 @@
-enum RequestType { getInfo, connect }
+enum RequestType { getInfo, connect, disconnect, richi }

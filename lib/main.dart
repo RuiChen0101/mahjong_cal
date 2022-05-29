@@ -10,8 +10,10 @@ import 'package:mahjong_cal/key/navigator_key.dart';
 import 'package:mahjong_cal/page/match_create.dart';
 import 'package:mahjong_cal/page/connectable_list.dart';
 import 'package:mahjong_cal/page/match_settlement.dart';
+import 'package:mahjong_cal/page/remote_score_board.dart';
 import 'package:mahjong_cal/data_entity/server_info.dart';
 import 'package:mahjong_cal/page/player_connect_page.dart';
+import 'package:mahjong_cal/modal/network/game_client.dart';
 import 'package:mahjong_cal/data_entity/match_setting.dart';
 import 'package:mahjong_cal/page/round_result/draw_result_create.dart';
 import 'package:mahjong_cal/page/round_result/winning_result_create.dart';
@@ -69,6 +71,12 @@ class Main extends StatelessWidget {
                 settings: const RouteSettings(name: '/score_board'),
                 builder: (_) => ScoreBoard(
                       setting: settings.arguments as MatchSetting,
+                    ));
+          case '/remote_score_board':
+            return MaterialPageRoute(
+                settings: const RouteSettings(name: '/remote_score_board'),
+                builder: (_) => RemoteScoreBoard(
+                      client: settings.arguments as GameClient,
                     ));
           case '/draw_result_create':
             return MaterialPageRoute<List<String>>(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:mahjong_cal/data_entity/server_info.dart';
 import 'package:mahjong_cal/component/button/tab_bar_option_button.dart';
+import 'package:mahjong_cal/modal/network/game_client.dart';
 
 class PlayerConnectPage extends StatefulWidget {
   final ServerInfo info;
@@ -37,7 +39,18 @@ class _PlayerConnectPageState extends State<PlayerConnectPage> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            onPressed: () {},
+            onPressed: () async {
+              EasyLoading.show();
+              try {
+                GameClient client = GameClient();
+                await client.connect(widget.info.ip, selectedPlayer);
+                Navigator.pushNamed(context, '/remote_score_board',
+                    arguments: client);
+                EasyLoading.dismiss();
+              } catch (_) {
+                EasyLoading.showError('Connect fail');
+              }
+            },
           ),
         ],
       ),

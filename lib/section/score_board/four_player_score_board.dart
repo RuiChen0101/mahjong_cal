@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:mahjong_cal/modal/match.dart';
+import 'package:mahjong_cal/constant/player_status.dart';
+import 'package:mahjong_cal/component/visibility_widget.dart';
 import 'package:mahjong_cal/data_entity/round_result/round_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/winning_result.dart';
 import 'package:mahjong_cal/section/score_board/four_player_score_board_center.dart';
@@ -16,6 +18,14 @@ class FourPlayerScoreBoard extends StatefulWidget {
 
 class _FourPlayerScoreBoard extends State<FourPlayerScoreBoard> {
   @override
+  void initState() {
+    super.initState();
+    widget.match.onUpdate = () {
+      setState(() {});
+    };
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
@@ -30,13 +40,26 @@ class _FourPlayerScoreBoard extends State<FourPlayerScoreBoard> {
                 quarterTurns: 2,
                 child: GestureDetector(
                   onTap: () async => _onWinning('player3'),
-                  child: Text(
-                    widget.match.players['player3']!.playerName,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      VisibilityWidget(
+                        visibility: widget.match.players['player3']!
+                            .checkStatus(PlayerStatus.connected),
+                        child: const Icon(
+                          Icons.wifi,
+                          size: 16,
+                        ),
+                      ),
+                      Text(
+                        widget.match.players['player3']!.playerName,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -44,13 +67,25 @@ class _FourPlayerScoreBoard extends State<FourPlayerScoreBoard> {
                 quarterTurns: 1,
                 child: GestureDetector(
                   onTap: () async => _onWinning('player4'),
-                  child: Text(
-                    widget.match.players['player4']!.playerName,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      VisibilityWidget(
+                          visibility: widget.match.players['player4']!
+                              .checkStatus(PlayerStatus.connected),
+                          child: const Icon(
+                            Icons.wifi,
+                            size: 16,
+                          )),
+                      Text(
+                        widget.match.players['player4']!.playerName,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -141,25 +176,50 @@ class _FourPlayerScoreBoard extends State<FourPlayerScoreBoard> {
                 quarterTurns: -1,
                 child: GestureDetector(
                   onTap: () async => _onWinning('player2'),
-                  child: Text(
-                    widget.match.players['player2']!.playerName,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      VisibilityWidget(
+                        visibility: widget.match.players['player2']!
+                            .checkStatus(PlayerStatus.connected),
+                        child: const Icon(
+                          Icons.wifi,
+                          size: 16,
+                        ),
+                      ),
+                      Text(
+                        widget.match.players['player2']!.playerName,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
               GestureDetector(
                 onTap: () async => _onWinning('player1'),
-                child: Text(
-                  widget.match.players['player1']!.playerName,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    VisibilityWidget(
+                        visibility: widget.match.players['player1']!
+                            .checkStatus(PlayerStatus.connected),
+                        child: const Icon(
+                          Icons.wifi,
+                          size: 16,
+                        )),
+                    Text(
+                      widget.match.players['player1']!.playerName,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

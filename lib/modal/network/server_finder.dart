@@ -26,6 +26,8 @@ class ServerFinder {
     String? res = await SocketClient.request(
         ip, Constant.servicePort, RequestObject(RequestType.getInfo));
     if (res == null) return null;
-    return ServerInfo.fromJson(jsonDecode(res));
+    ServerInfo info = ServerInfo.fromJson(jsonDecode(res));
+    info.ip = ip;
+    return info;
   }
 }

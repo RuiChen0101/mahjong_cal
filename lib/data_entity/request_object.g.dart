@@ -21,4 +21,6 @@ Map<String, dynamic> _$RequestObjectToJson(RequestObject instance) =>
 const _$RequestTypeEnumMap = {
   RequestType.getInfo: 'getInfo',
   RequestType.connect: 'connect',
+  RequestType.disconnect: 'disconnect',
+  RequestType.richi: 'richi',
 };

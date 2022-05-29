@@ -24,7 +24,7 @@ class Match {
   late Map<String, Player> _players;
   Round _currentRound;
   final List<Round> _rounds = [];
-  VoidCallback? _onUpdate;
+  final List<VoidCallback> _onUpdate = [];
 
   Round get currentRound => _currentRound;
   List<Round> get rounds => _rounds;
@@ -32,7 +32,7 @@ class Match {
   Map<String, Player> get players => _players;
 
   set onUpdate(VoidCallback callback) {
-    _onUpdate = callback;
+    _onUpdate.add(callback);
   }
 
   Match(this._setting) : _currentRound = Round(EnumWind.east, 1, 0) {
@@ -96,12 +96,23 @@ class Match {
     return result;
   }
 
+  void playerConnect(String playerId) {
+    _players[playerId]!.setStatus(PlayerStatus.connected);
+    _singleUpdate();
+  }
+
+  void playerDisconnect(String playerId) {
+    players[playerId]!.removeState(PlayerStatus.connected);
+    _singleUpdate();
+  }
+
   void clamRichi(String playerId) {
     Player player = _players[playerId]!;
     if (player.points >= 1000) {
       player.setStatus(PlayerStatus.richi);
       player.transfer(null, 1000);
     }
+    _singleUpdate();
   }
 
   void setRoundResult(RoundResult result) {
@@ -123,13 +134,19 @@ class Match {
       _players[result.from]!.transfer(_players[result.to]!, result.amount);
     }
     _nextRound();
-    (_onUpdate ?? () {})();
+    _singleUpdate();
   }
 
   bool isFinished() {
     MatchFinishChecker checker = MatchFinishChecker();
     return checker.isFinished(
         _currentRound, _setting, _players.values.toList());
+  }
+
+  void _singleUpdate() {
+    for (VoidCallback callback in _onUpdate) {
+      callback();
+    }
   }
 
   void _nextRound() {
@@ -139,7 +156,7 @@ class Match {
     _currentRound =
         generator.generate(_currentRound, _setting, isDealerRemaining);
     for (Player player in _players.values) {
-      player.clearStatus();
+      player.removeState(PlayerStatus.richi);
       if (!isDealerRemaining) {
         player.wind = _setting.playerCount == EnumMatchPlayerCount.four
             ? fourPlayerWindTransfer[player.wind]!

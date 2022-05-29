@@ -47,14 +47,14 @@ class GameServer {
       sockets[address]!.destroy();
       sockets.remove(address);
       if (connectedClient[address] != null) {
-        match.players[connectedClient[address]!]!
-            .removeState(PlayerStatus.connected);
+        match.playerDisconnect(connectedClient[address]!);
         connectedClient.remove(address);
       }
     });
   }
 
   void onRequest(String address, String request) {
+    print(request);
     RequestObject req = RequestObject.fromJson(jsonDecode(request));
     if (sockets[address] == null) return;
     switch (req.command) {
@@ -68,10 +68,22 @@ class GameServer {
         break;
       case RequestType.connect:
         String playerId = req.data!;
-        match.players[playerId]!.setStatus(PlayerStatus.connected);
+        match.playerConnect(playerId);
         connectedClient[address] = playerId;
         sockets[address]!
             .add(jsonEncode(match.toTransferObject().toJson()).codeUnits);
+        break;
+      case RequestType.disconnect:
+        sockets[address]!.destroy();
+        sockets.remove(address);
+        if (connectedClient[address] != null) {
+          match.playerDisconnect(connectedClient[address]!);
+          connectedClient.remove(address);
+        }
+        break;
+      case RequestType.richi:
+        String playerId = req.data!;
+        match.clamRichi(playerId);
         break;
     }
   }
