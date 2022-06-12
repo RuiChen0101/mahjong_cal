@@ -4,7 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:mahjong_cal/page/menu.dart';
 import 'package:mahjong_cal/modal/match.dart';
 import 'package:mahjong_cal/modal/player.dart';
-import 'package:mahjong_cal/page/history.dart';
+import 'package:mahjong_cal/page/history_page.dart';
 import 'package:mahjong_cal/page/score_board.dart';
 import 'package:mahjong_cal/key/navigator_key.dart';
 import 'package:mahjong_cal/page/match_create.dart';
@@ -51,7 +51,7 @@ class Main extends StatelessWidget {
           case '/history':
             return MaterialPageRoute(
                 settings: const RouteSettings(name: '/history'),
-                builder: (_) => const History());
+                builder: (_) => const HistoryPage());
           case '/connectable_list':
             return MaterialPageRoute(
                 settings: const RouteSettings(name: '/connectable_list'),

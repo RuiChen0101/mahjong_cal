@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import 'package:mahjong_cal/constant/enum_wind.dart';
 import 'package:mahjong_cal/constant/enum_round_result_type.dart';
+import 'package:mahjong_cal/data_entity/record/round_record.dart';
 import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/round_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/winning_result.dart';
@@ -36,6 +37,20 @@ class Round extends Equatable {
 
   RoundTransferObject toTransferObject() {
     return RoundTransferObject(_gameWind, _gameCount, _dealerCounter);
+  }
+
+  RoundRecord toRecord() {
+    List<String> winner = [];
+    for (RoundResult r in results) {
+      if (r is WinningResult) {
+        winner.add(r.winner);
+      } else if (r is DrawResult) {
+        winner.addAll(r.readyHandPlayers);
+      }
+    }
+    RoundRecord record = RoundRecord(_gameWind, _gameCount, _dealerCounter,
+        _resultType ?? EnumRoundResultType.draw, winner);
+    return record;
   }
 
   @override

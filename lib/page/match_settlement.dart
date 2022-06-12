@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:mahjong_cal/modal/history.dart';
 import 'package:mahjong_cal/modal/match.dart';
 import 'package:mahjong_cal/modal/player.dart';
 
@@ -76,6 +78,23 @@ class MatchSettlement extends StatelessWidget {
         appBar: AppBar(
           title: const Text('結算'),
           leading: null,
+          actions: [
+            TextButton(
+              child: const Text(
+                "存檔",
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              onPressed: () async {
+                EasyLoading.show();
+                History history = History();
+                await history.loadFile();
+                await history.addRecord(match.toRecord());
+                EasyLoading.showSuccess("存檔成功");
+              },
+            ),
+          ],
         ),
         body: Center(
           child: Column(

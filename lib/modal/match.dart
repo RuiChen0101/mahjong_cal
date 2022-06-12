@@ -8,7 +8,10 @@ import 'package:mahjong_cal/data_entity/match_setting.dart';
 import 'package:mahjong_cal/constant/wind_transfer_map.dart';
 import 'package:mahjong_cal/modal/match_finish_checker.dart';
 import 'package:mahjong_cal/data_entity/transfer_request.dart';
+import 'package:mahjong_cal/data_entity/record/match_record.dart';
+import 'package:mahjong_cal/data_entity/record/round_record.dart';
 import 'package:mahjong_cal/constant/enum_round_result_type.dart';
+import 'package:mahjong_cal/data_entity/record/player_record.dart';
 import 'package:mahjong_cal/constant/enum_match_player_count.dart';
 import 'package:mahjong_cal/data_entity/round_result/draw_result.dart';
 import 'package:mahjong_cal/data_entity/round_result/round_result.dart';
@@ -86,6 +89,16 @@ class Match {
       transferPlayer[playerId] = _players[playerId]!.toTransferObject();
     }
     return MatchTransferObject(transferPlayer, currentRound.toTransferObject());
+  }
+
+  MatchRecord toRecord() {
+    Map<String, PlayerRecord> playerRecords = {};
+    for (Player p in players.values) {
+      playerRecords[p.id] = p.toRecord();
+    }
+    List<RoundRecord> roundRecords = rounds.map((e) => e.toRecord()).toList();
+    MatchRecord record = MatchRecord(setting, roundRecords, playerRecords);
+    return record;
   }
 
   String getDealerId() {

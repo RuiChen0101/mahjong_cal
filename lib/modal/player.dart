@@ -1,4 +1,5 @@
 import 'package:mahjong_cal/constant/enum_wind.dart';
+import 'package:mahjong_cal/data_entity/record/player_record.dart';
 import 'package:mahjong_cal/data_entity/transfer_object/player_transfer_object.dart';
 
 class Player {
@@ -17,6 +18,11 @@ class Player {
 
   PlayerTransferObject toTransferObject() {
     return PlayerTransferObject(_id, _playerName, wind, _points, _status);
+  }
+
+  PlayerRecord toRecord() {
+    PlayerRecord record = PlayerRecord(id, playerName, wind, points);
+    return record;
   }
 
   void transfer(Player? to, int amount) {

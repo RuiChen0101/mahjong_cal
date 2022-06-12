@@ -1,9 +1,9 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:mahjong_cal/data_entity/round_result/round_result.dart';
 
+@JsonSerializable()
 class DrawResult extends RoundResult {
-  final List<String> _readyHandPlayers;
+  final List<String> readyHandPlayers;
 
-  List<String> get readyHandPlayers => _readyHandPlayers;
-
-  DrawResult(this._readyHandPlayers);
+  DrawResult(this.readyHandPlayers);
 }

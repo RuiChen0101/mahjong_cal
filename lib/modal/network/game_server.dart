@@ -26,7 +26,7 @@ class GameServer {
       NetworkInfo info = NetworkInfo();
       ip = (await info.getWifiIP())!;
       server = await ServerSocket.bind('0.0.0.0', Constant.servicePort);
-      server!.listen(onConnect);
+      server!.listen(_onConnect);
     } catch (_) {}
   }
 
@@ -35,14 +35,14 @@ class GameServer {
     server = null;
   }
 
-  void onConnect(Socket socket) {
+  void _onConnect(Socket socket) {
     String address = socket.remoteAddress.address;
     if (sockets.containsKey(address)) {
       sockets[address]!.close();
     }
     sockets[address] = socket;
     socket.listen(
-        (Uint8List data) => onRequest(address, String.fromCharCodes(data)),
+        (Uint8List data) => _onRequest(address, String.fromCharCodes(data)),
         onDone: () {
       sockets[address]!.destroy();
       sockets.remove(address);
@@ -53,8 +53,7 @@ class GameServer {
     });
   }
 
-  void onRequest(String address, String request) {
-    print(request);
+  void _onRequest(String address, String request) {
     RequestObject req = RequestObject.fromJson(jsonDecode(request));
     if (sockets[address] == null) return;
     switch (req.command) {
