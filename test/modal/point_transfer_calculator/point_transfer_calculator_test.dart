@@ -38,7 +38,7 @@ void main() {
 
       test('test other condition', () {
         int basePoint = calculator.basePointCalculate(30, 1);
-        expect(basePoint, 340);
+        expect(basePoint, 240);
       });
     });
 

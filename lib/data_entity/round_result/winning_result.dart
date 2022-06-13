@@ -13,8 +13,7 @@ class WinningResult extends RoundResult {
   int point = 0;
 
   WinningResult(this.winner, this.winType, this.tile, this.han, this.fu,
-      {String? chucker, int? point = 0}) {
-    chucker = chucker;
+      {this.chucker, int? point = 0}) {
     point = point;
   }
 }
